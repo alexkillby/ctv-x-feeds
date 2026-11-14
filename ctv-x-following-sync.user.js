@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name         CTV News TV — Sync @alexkillby X Following List
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.0.0
-// @description  Syncs @alexkillby's followed X accounts at most once per day to GitHub so CTV News Android TV can independently probe them for live broadcasts.
+// @version      1.1.0
+// @description  Syncs @alexkillby's followed X accounts automatically once per day to GitHub so CTV News Android TV can independently probe them for live broadcasts.
 // @author       Alex Killby
 // @match        https://x.com/*
 // @match        https://twitter.com/*
 // @run-at       document-start
-// @grant        unsafeWindow
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -24,17 +23,32 @@
   const GITHUB_OWNER = 'alexkillby';
   const GITHUB_REPO = 'ctv-x-feeds';
   const GITHUB_FILE_PATH = 'x-following.json';
-  const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000; // At most once every 24 hours
-  const SYNC_LOCK_MS = 5 * 60 * 1000;           // Prevent concurrent tabs from syncing simultaneously
+  const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000; // Once every 24 hours
+  const AUTO_CHECK_MS = 30 * 60 * 1000;          // Re-check every 30 min on long-lived tabs
+  const SYNC_LOCK_MS = 3 * 60 * 1000;
   const MSG_SOURCE = 'ctv-x-following-sync';
+
+  // X's public web client bearer token + 2026 x-web persisted followingQuery ID
+  const X_WEB_BEARER =
+    'Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA';
+  const DEFAULT_FOLLOWING_QUERY_ID = 'ouGZAdSKJFzWYnUkMUBSog';
+
+  // Optional baked-in Fine-Grained GitHub PAT (use private Google Drive copy so GitHub Secret Scanning never revokes it)
+  const BAKED_GITHUB_PAT = '';
 
   const STORAGE_KEYS = {
     GITHUB_PAT: 'ctv_github_pat',
     LAST_SYNC_MS: 'ctv_last_sync_ms',
+    LAST_SYNC_STATUS: 'ctv_last_sync_status',
     SYNC_LOCK_UNTIL: 'ctv_sync_lock_until',
     MIN_FOLLOWERS: 'ctv_min_followers',
-    PINNED_HANDLES: 'ctv_pinned_handles'
+    PINNED_HANDLES: 'ctv_pinned_handles',
+    CACHED_QUERY_ID: 'ctv_following_query_id'
   };
+
+  function getGithubToken() {
+    return (GM_getValue(STORAGE_KEYS.GITHUB_PAT, '') || '').trim() || BAKED_GITHUB_PAT.trim();
+  }
 
   const DEFAULT_PINNED = [
     { handle: 'SpaceX', name: 'SpaceX', subtitle: 'Live Launch Coverage • X (@SpaceX)' },
@@ -43,161 +57,202 @@
 
   const RESERVED_PATHS = new Set([
     'home', 'explore', 'notifications', 'messages', 'i', 'settings',
-    'search', 'compose', 'intent', 'tos', 'privacy', 'jobs', 'lists', 'communities'
+    'search', 'compose', 'intent', 'tos', 'privacy', 'jobs', 'lists',
+    'communities', 'bookmarks', 'premium', 'grok', 'logout', 'login', 'signup'
   ]);
 
-  const isSyncIframe = window.self !== window.top && location.search.includes('ctv_sync=1');
-
   // ============================================================================
-  // IFRAME WORKER MODE: Captures X's native GraphQL Following pages + DOM fallback
+  // SHARED ACCOUNT & GRAPHQL / SSR PARSERS (Supports 2026 x-web + Legacy Schemas)
   // ============================================================================
-  if (isSyncIframe) {
-    const collected = new Map(); // lowerHandle -> accountObj
-    let reachedBottom = false;
+  function recordAccountIntoMap(collected, raw) {
+    if (!raw || !raw.handle) return;
+    const cleanHandle = String(raw.handle).replace(/^@+/, '').trim();
+    if (!cleanHandle || !/^[A-Za-z0-9_]{1,15}$/.test(cleanHandle)) return;
+    const lower = cleanHandle.toLowerCase();
+    if (lower === TARGET_USERNAME.toLowerCase() || RESERVED_PATHS.has(lower)) return;
+    if (raw.protected === true) return; // Protected accounts cannot be probed unauthenticated by TV
 
-    function recordAccount(raw) {
-      if (!raw || !raw.handle) return;
-      const cleanHandle = String(raw.handle).replace(/^@+/, '').trim();
-      if (!cleanHandle || !/^[A-Za-z0-9_]{1,15}$/.test(cleanHandle)) return;
-      const lower = cleanHandle.toLowerCase();
-      if (lower === TARGET_USERNAME.toLowerCase() || RESERVED_PATHS.has(lower)) return;
-      if (raw.protected === true) return; // Protected accounts cannot be probed unauthenticated by TV
+    const existing = collected.get(lower);
+    const incomingFollowers =
+      typeof raw.followers_count === 'number' ? raw.followers_count : (existing?.followers_count || 0);
+    const incomingStatuses =
+      typeof raw.statuses_count === 'number' ? raw.statuses_count : (existing?.statuses_count ?? -1);
 
-      const existing = collected.get(lower);
-      if (!existing || (raw.followers_count || 0) > (existing.followers_count || 0)) {
-        collected.set(lower, {
-          handle: cleanHandle,
-          name: (raw.name && String(raw.name).trim()) || cleanHandle,
-          followers_count: typeof raw.followers_count === 'number' ? raw.followers_count : (existing?.followers_count || 0),
-          statuses_count: typeof raw.statuses_count === 'number' ? raw.statuses_count : (existing?.statuses_count ?? -1),
-          verified: Boolean(raw.verified || existing?.verified)
-        });
-      }
+    if (!existing || incomingFollowers >= (existing.followers_count || 0)) {
+      collected.set(lower, {
+        handle: cleanHandle,
+        name: (raw.name && String(raw.name).trim()) || existing?.name || cleanHandle,
+        followers_count: Math.max(incomingFollowers, existing?.followers_count || 0),
+        statuses_count: incomingStatuses,
+        verified: Boolean(raw.verified || existing?.verified)
+      });
     }
+  }
 
-    function walkGraphqlNode(node) {
+  function parseTimelinePayload(rootNode, collected) {
+    let bottomCursor = null;
+    let reachedEnd = false;
+
+    function walk(node) {
       if (!node || typeof node !== 'object') return;
       if (Array.isArray(node)) {
-        for (const item of node) walkGraphqlNode(item);
+        for (const item of node) walk(item);
         return;
       }
 
-      // Check for end-of-timeline bottom cursor ("0|...")
-      if (
-        (node.entryType === 'TimelineTimelineCursor' || node.__typename === 'TimelineTimelineCursor') &&
-        node.cursorType === 'Bottom' &&
-        typeof node.value === 'string' &&
-        node.value.startsWith('0|')
-      ) {
-        reachedBottom = true;
+      // Detect bottom cursor across 2026 x-web (`cursor_type`) and legacy (`cursorType`)
+      const cType = node.cursor_type || node.cursorType;
+      if (cType === 'Bottom' && typeof node.value === 'string') {
+        bottomCursor = node.value;
+        if (node.value.startsWith('0|')) {
+          reachedEnd = true;
+        }
       }
 
-      // Extract User objects across both legacy and 2026 `core` X GraphQL schemas
-      const isUserNode =
-        node.__typename === 'User' ||
-        (node.legacy && typeof node.legacy.screen_name === 'string') ||
-        (node.core && typeof node.core.screen_name === 'string');
+      // Extract User across 2026 x-web (`core` + `relationship_counts`), legacy GraphQL, and v1.1 REST
+      const handle = node.core?.screen_name || node.legacy?.screen_name || node.screen_name;
+      const isUserObject =
+        handle &&
+        (node.__typename === 'User' ||
+          node.core?.screen_name ||
+          node.legacy?.screen_name ||
+          typeof node.followers_count === 'number');
 
-      if (isUserNode) {
-        const handle = node.core?.screen_name || node.legacy?.screen_name || node.screen_name;
-        const name = node.core?.name || node.legacy?.name || node.name;
-        const isProtected = node.privacy?.protected ?? node.legacy?.protected ?? false;
-        const followersCount = node.legacy?.followers_count ?? node.followers_count ?? 0;
-        const statusesCount = node.legacy?.statuses_count ?? node.statuses_count ?? -1;
-        const verified = Boolean(node.is_blue_verified || node.legacy?.verified || node.verified);
+      if (isUserObject) {
+        const name = node.core?.name || node.legacy?.name || node.name || handle;
+        const isProtected = Boolean(
+          node.privacy?.protected ?? node.legacy?.protected ?? node.protected ?? false
+        );
+        const followersCount =
+          node.relationship_counts?.followers ??
+          node.legacy?.followers_count ??
+          node.followers_count ??
+          0;
+        const statusesCount =
+          node.tweet_counts?.tweets ??
+          node.legacy?.statuses_count ??
+          node.statuses_count ??
+          -1;
+        const verified = Boolean(
+          node.verification?.is_blue_verified ||
+            node.verification?.verified_type ||
+            node.is_blue_verified ||
+            node.legacy?.verified ||
+            node.verified
+        );
 
-        if (handle) {
-          recordAccount({
-            handle,
-            name,
-            protected: Boolean(isProtected),
-            followers_count: followersCount,
-            statuses_count: statusesCount,
-            verified
-          });
-        }
+        recordAccountIntoMap(collected, {
+          handle,
+          name,
+          protected: isProtected,
+          followers_count: followersCount,
+          statuses_count: statusesCount,
+          verified
+        });
       }
 
       for (const key of Object.keys(node)) {
-        walkGraphqlNode(node[key]);
+        walk(node[key]);
       }
     }
 
-    function inspectFollowingUrlAndBody(url, responseText) {
-      if (!url || !/\/graphql\/[^/]+\/Following\b/i.test(String(url))) return;
+    walk(rootNode);
+    return { bottomCursor, reachedEnd };
+  }
+
+  // Extract dehydrated Relay JSON payloads embedded inside 2026 x-web TanStack Router SSR HTML
+  function parseSsrHtmlFollowingData(htmlText, collected) {
+    let bottomCursor = null;
+    let reachedEnd = false;
+    if (!htmlText) return { bottomCursor, reachedEnd };
+
+    // Match `value:"{\"data\":...}"` string literals inside inline SSR `$R` scripts
+    const valueRegex = /value:("(?:\\.|[^"\\])*")/g;
+    let match;
+    while ((match = valueRegex.exec(htmlText)) !== null) {
       try {
-        const json = JSON.parse(responseText);
-        walkGraphqlNode(json);
+        const jsonStr = JSON.parse(match[1]);
+        if (!jsonStr || !jsonStr.includes('following_timeline')) continue;
+        const parsed = JSON.parse(jsonStr);
+        const timeline =
+          parsed?.data?.user_result_by_screen_name?.result?.following_timeline ||
+          parsed?.user_result_by_screen_name?.result?.following_timeline;
+        if (timeline) {
+          const res = parseTimelinePayload(timeline, collected);
+          if (res.bottomCursor) bottomCursor = res.bottomCursor;
+          if (res.reachedEnd) reachedEnd = true;
+        }
       } catch (_) {}
     }
+    return { bottomCursor, reachedEnd };
+  }
 
-    // Hook unsafeWindow.fetch & XMLHttpRequest before X's bundle runs
-    try {
-      const pageWin = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+  // Scan rendered 2026 x-web Tailwind user rows + legacy [data-testid="UserCell"] inside <main>
+  function scanModernDomUsers(doc, collected) {
+    const mainEl = doc.querySelector('main') || doc.body;
+    if (!mainEl) return;
 
-      const origFetch = pageWin.fetch;
-      if (typeof origFetch === 'function') {
-        pageWin.fetch = async function (...args) {
-          const resp = await origFetch.apply(this, args);
-          try {
-            const reqUrl = typeof args[0] === 'string' ? args[0] : args[0]?.url;
-            if (reqUrl && /\/graphql\/[^/]+\/Following\b/i.test(reqUrl)) {
-              resp.clone().text().then((txt) => inspectFollowingUrlAndBody(reqUrl, txt)).catch(() => {});
-            }
-          } catch (_) {}
-          return resp;
-        };
-      }
-
-      const origOpen = pageWin.XMLHttpRequest.prototype.open;
-      const origSend = pageWin.XMLHttpRequest.prototype.send;
-      pageWin.XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-        this.__ctvUrl = url;
-        return origOpen.call(this, method, url, ...rest);
-      };
-      pageWin.XMLHttpRequest.prototype.send = function (...args) {
-        this.addEventListener('load', function () {
-          try {
-            if (this.__ctvUrl && /\/graphql\/[^/]+\/Following\b/i.test(this.__ctvUrl)) {
-              inspectFollowingUrlAndBody(this.__ctvUrl, this.responseText);
-            }
-          } catch (_) {}
-        });
-        return origSend.apply(this, args);
-      };
-    } catch (_) {}
-
-    // Fallback DOM scraper for rendered [data-testid="UserCell"] rows
-    function scanRenderedDomCells() {
-      const cells = document.querySelectorAll('[data-testid="UserCell"]');
-      for (const cell of cells) {
-        const links = cell.querySelectorAll('a[href^="/"]');
-        for (const a of links) {
-          const href = a.getAttribute('href') || '';
-          const match = href.match(/^\/([A-Za-z0-9_]{1,15})\/?$/);
-          if (match) {
-            const handle = match[1];
-            const nameSpan = cell.querySelector('span');
-            recordAccount({
-              handle,
-              name: nameSpan?.textContent?.trim() || handle
-            });
-            break;
-          }
-        }
+    // 1. Legacy selector (if present)
+    const legacyCells = mainEl.querySelectorAll('[data-testid="UserCell"]');
+    for (const cell of legacyCells) {
+      if (cell.closest('aside, [aria-label*="Who to follow" i]')) continue;
+      const a = cell.querySelector('a[href^="/"]');
+      const hrefMatch = (a?.getAttribute('href') || '').match(/^\/([A-Za-z0-9_]{1,15})\/?$/);
+      if (hrefMatch) {
+        const handle = hrefMatch[1];
+        const name = cell.querySelector('span')?.textContent?.trim() || handle;
+        recordAccountIntoMap(collected, { handle, name });
       }
     }
 
-    function startAutoScrollHarvest() {
+    // 2. 2026 x-web Tailwind user list rows: profile links inside <main> paired with @handle text
+    const links = mainEl.querySelectorAll('a[href^="/"]');
+    for (const a of links) {
+      if (a.closest('aside, nav, [role="tablist"], [aria-label*="Who to follow" i]')) continue;
+      const href = a.getAttribute('href') || '';
+      const m = href.match(/^\/([A-Za-z0-9_]{1,15})\/?$/);
+      if (!m) continue;
+      const handle = m[1];
+      if (RESERVED_PATHS.has(handle.toLowerCase())) continue;
+
+      const text = (a.textContent || '').trim();
+      const atMention = `@${handle}`.toLowerCase();
+      if (text.toLowerCase().includes(atMention)) {
+        // Stacked x-web user link contains DisplayName followed by @handle
+        const idx = text.toLowerCase().indexOf(atMention);
+        const displayName = idx > 0 ? text.slice(0, idx).trim() : handle;
+        recordAccountIntoMap(collected, {
+          handle,
+          name: displayName || handle
+        });
+      }
+    }
+  }
+
+  // ============================================================================
+  // IFRAME FALLBACK WORKER MODE (?ctv_sync=1)
+  // ============================================================================
+  const isSyncIframe = window.self !== window.top && location.search.includes('ctv_sync=1');
+  if (isSyncIframe) {
+    const collected = new Map();
+
+    const startIframeHarvest = () => {
+      // Parse initial SSR scripts already present in document
+      parseSsrHtmlFollowingData(document.documentElement?.innerHTML || '', collected);
+      scanModernDomUsers(document, collected);
+
       let idleTicks = 0;
-      let lastSize = 0;
+      let lastSize = collected.size;
       let ticks = 0;
-      const MAX_TICKS = 90; // Cap at ~100 seconds max
+      const MAX_TICKS = 65;
 
       const timer = setInterval(() => {
         ticks++;
-        scanRenderedDomCells();
-        window.scrollBy(0, 1400);
+        scanModernDomUsers(document, collected);
+        window.scrollBy(0, 1100);
+        if (document.scrollingElement) {
+          document.scrollingElement.scrollTop += 1100;
+        }
 
         if (collected.size === lastSize) {
           idleTicks++;
@@ -206,10 +261,9 @@
           idleTicks = 0;
         }
 
-        // Stop once X marks bottom cursor OR count stabilizes after initial load
-        if (reachedBottom || (collected.size > 0 && idleTicks >= 5) || idleTicks >= 10 || ticks >= MAX_TICKS) {
+        if ((collected.size > 0 && idleTicks >= 7) || idleTicks >= 11 || ticks >= MAX_TICKS) {
           clearInterval(timer);
-          scanRenderedDomCells();
+          scanModernDomUsers(document, collected);
           window.parent.postMessage(
             {
               source: MSG_SOURCE,
@@ -219,49 +273,284 @@
             location.origin
           );
         }
-      }, 1100);
-    }
+      }, 1000);
+    };
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => setTimeout(startAutoScrollHarvest, 1800));
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(startIframeHarvest, 3000);
     } else {
-      setTimeout(startAutoScrollHarvest, 1800);
+      window.addEventListener('DOMContentLoaded', () => setTimeout(startIframeHarvest, 3000), { once: true });
     }
     return;
   }
 
-  // ============================================================================
-  // TOP WINDOW MODE: Daily Scheduler, Menu Commands & GitHub Repo Uploader
-  // ============================================================================
   if (window.self !== window.top) return;
 
-  function showBanner(msg, isError = false) {
-    const attach = () => {
-      const el = document.createElement('div');
-      el.textContent = `📺 CTV X Sync: ${msg}`;
-      Object.assign(el.style, {
+  // ============================================================================
+  // TOP WINDOW: UI BANNER, TOKEN MODAL, DIRECT API HARVESTERS & DAILY SCHEDULER
+  // ============================================================================
+  let activeBannerEl = null;
+  let bannerHideTimer = null;
+
+  function showBanner(msg, { isError = false, durationMs = 7500 } = {}) {
+    const render = () => {
+      if (bannerHideTimer) {
+        clearTimeout(bannerHideTimer);
+        bannerHideTimer = null;
+      }
+      if (!activeBannerEl || !activeBannerEl.isConnected) {
+        activeBannerEl = document.createElement('div');
+        document.body.appendChild(activeBannerEl);
+      }
+      activeBannerEl.textContent = `📺 CTV X Sync: ${msg}`;
+      Object.assign(activeBannerEl.style, {
         position: 'fixed',
-        bottom: '18px',
-        right: '18px',
+        top: '16px',
+        left: '50%',
+        transform: 'translateX(-50%)',
         zIndex: '2147483647',
-        padding: '10px 14px',
-        borderRadius: '8px',
+        padding: '10px 18px',
+        borderRadius: '999px',
         background: isError ? '#7f1d1d' : '#0f172a',
         color: '#f8fafc',
-        border: `1px solid ${isError ? '#ef4444' : '#38bdf8'}`,
+        border: `1.5px solid ${isError ? '#f87171' : '#38bdf8'}`,
         fontFamily: 'system-ui, -apple-system, sans-serif',
-        fontSize: '13px',
-        boxShadow: '0 8px 20px rgba(0,0,0,0.45)',
-        transition: 'opacity 0.3s ease'
+        fontSize: '13.5px',
+        fontWeight: '600',
+        boxShadow: '0 10px 28px rgba(0,0,0,0.55)',
+        opacity: '1',
+        pointerEvents: 'none',
+        transition: 'opacity 0.3s ease',
+        maxWidth: '90vw',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
       });
-      document.body.appendChild(el);
-      setTimeout(() => {
-        el.style.opacity = '0';
-        setTimeout(() => el.remove(), 350);
-      }, 4500);
+
+      if (durationMs > 0) {
+        bannerHideTimer = setTimeout(() => {
+          if (activeBannerEl) {
+            activeBannerEl.style.opacity = '0';
+            setTimeout(() => {
+              activeBannerEl?.remove();
+              activeBannerEl = null;
+            }, 350);
+          }
+        }, durationMs);
+      }
     };
-    if (document.body) attach();
-    else document.addEventListener('DOMContentLoaded', attach, { once: true });
+
+    if (document.body) render();
+    else document.addEventListener('DOMContentLoaded', render, { once: true });
+  }
+
+  function getCsrfToken() {
+    const m = document.cookie.match(/(?:^|;\s*)ct0=([^;]+)/);
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+
+  function buildXAuthHeaders(ct0) {
+    return {
+      authorization: X_WEB_BEARER,
+      'x-csrf-token': ct0,
+      'x-twitter-auth-type': 'OAuth2Session',
+      'x-twitter-active-user': 'yes',
+      'x-twitter-client-language': 'en',
+      accept: 'application/json'
+    };
+  }
+
+  async function discoverFollowingQueryId() {
+    const cached = GM_getValue(STORAGE_KEYS.CACHED_QUERY_ID, '');
+    try {
+      const htmlResp = await fetch(`${location.origin}/${TARGET_USERNAME}/following`, {
+        credentials: 'include',
+        headers: { accept: 'text/html' }
+      });
+      if (htmlResp.ok) {
+        const html = await htmlResp.text();
+        // Check SSR query key if present
+        const ssrMatch = html.match(/key:"([A-Za-z0-9_-]{18,30})\{[^"]*screenName\\?":\\?"alexkillby/i);
+        if (ssrMatch && ssrMatch[1] !== 'nmw74gYGNm3howcAcWyswA' && ssrMatch[1] !== 'mmbsPcfJHQll75bMpNZ9_w') {
+          GM_setValue(STORAGE_KEYS.CACHED_QUERY_ID, ssrMatch[1]);
+          return { queryId: ssrMatch[1], ssrHtml: html };
+        }
+      }
+    } catch (_) {}
+    return { queryId: cached || DEFAULT_FOLLOWING_QUERY_ID, ssrHtml: null };
+  }
+
+  // Strategy 1: Direct 2026 x-web Relay `followingQuery` pagination (~1 second, zero iframes)
+  async function harvestViaRelayGraphql(collected) {
+    const ct0 = getCsrfToken();
+    if (!ct0) return false;
+
+    let queryId = GM_getValue(STORAGE_KEYS.CACHED_QUERY_ID, '') || DEFAULT_FOLLOWING_QUERY_ID;
+    let cursor = null;
+
+    for (let page = 0; page < 40; page++) {
+      const variables = {
+        __relay_internal__pv__liveeventpostcontextenabledrelayprovider: true,
+        __relay_internal__pv__postctafetchenabledrelayprovider: true,
+        __relay_internal__pv__replydownvoteenabledrelayprovider: false,
+        __relay_internal__pv__sportspostcontextenabledrelayprovider: true,
+        __relay_internal__pv__xclientsfeaturesappviewerisloggedinrelayprovider: true,
+        __relay_internal__pv__xclientsfeaturestranslationgroktranslatedpostenabledrelayprovider: true,
+        __relay_internal__pv__xclientsfeaturestranslationnoteautotranslationenabledrelayprovider: true,
+        __relay_internal__pv__xclientsfeaturestweetcomponentsgrokanalyzepostrelayprovider: true,
+        count: 50,
+        cursor,
+        screenName: TARGET_USERNAME
+      };
+
+      const url = `${location.origin}/i/api/graphql/${queryId}/followingQuery?variables=${encodeURIComponent(
+        JSON.stringify(variables)
+      )}`;
+
+      let resp = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: buildXAuthHeaders(ct0)
+      });
+
+      // If X rotated the persisted queryId, auto-discover the new ID once
+      if ((resp.status === 400 || resp.status === 404) && page === 0) {
+        const discovered = await discoverFollowingQueryId();
+        if (discovered.ssrHtml) {
+          parseSsrHtmlFollowingData(discovered.ssrHtml, collected);
+        }
+        if (discovered.queryId && discovered.queryId !== queryId) {
+          queryId = discovered.queryId;
+          const retryUrl = `${location.origin}/i/api/graphql/${queryId}/followingQuery?variables=${encodeURIComponent(
+            JSON.stringify(variables)
+          )}`;
+          resp = await fetch(retryUrl, {
+            method: 'GET',
+            credentials: 'include',
+            headers: buildXAuthHeaders(ct0)
+          });
+        }
+      }
+
+      if (!resp.ok) break;
+      const json = await resp.json();
+      const timeline =
+        json?.data?.user_result_by_screen_name?.result?.following_timeline || json;
+
+      const beforeSize = collected.size;
+      const { bottomCursor, reachedEnd } = parseTimelinePayload(timeline, collected);
+
+      if (reachedEnd || !bottomCursor || bottomCursor === cursor) break;
+      if (page > 0 && collected.size === beforeSize) break;
+      cursor = bottomCursor;
+    }
+
+    return collected.size > 0;
+  }
+
+  // Strategy 2: Direct REST v1.1 `friends/list.json` pagination (200 accounts per request)
+  async function harvestViaRestV1(collected) {
+    const ct0 = getCsrfToken();
+    if (!ct0) return false;
+
+    let cursor = '-1';
+    for (let page = 0; page < 20; page++) {
+      const url =
+        `${location.origin}/i/api/1.1/friends/list.json` +
+        `?screen_name=${encodeURIComponent(TARGET_USERNAME)}` +
+        `&count=200&skip_status=true&include_user_entities=false&cursor=${encodeURIComponent(cursor)}`;
+
+      const resp = await fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: buildXAuthHeaders(ct0)
+      });
+      if (!resp.ok) break;
+
+      const json = await resp.json();
+      if (Array.isArray(json?.users)) {
+        parseTimelinePayload(json.users, collected);
+      }
+
+      const nextCursor = json?.next_cursor_str;
+      if (!nextCursor || nextCursor === '0' || nextCursor === cursor) break;
+      cursor = nextCursor;
+    }
+
+    return collected.size > 0;
+  }
+
+  // Strategy 3: SSR HTML Fetch + In-Viewport 2026 x-web Live Iframe Scroller Fallback
+  async function harvestViaSsrAndIframe(collected) {
+    let ssrComplete = false;
+    try {
+      const resp = await fetch(`${location.origin}/${TARGET_USERNAME}/following`, {
+        credentials: 'include',
+        headers: { accept: 'text/html' }
+      });
+      if (resp.ok) {
+        const html = await resp.text();
+        const { bottomCursor, reachedEnd } = parseSsrHtmlFollowingData(html, collected);
+        if (collected.size > 0 && (reachedEnd || !bottomCursor)) {
+          ssrComplete = true;
+        }
+      }
+    } catch (_) {}
+
+    if (ssrComplete) return true;
+
+    // If user is ALREADY viewing /alexkillby/following right now, scan current DOM too
+    if (location.pathname.toLowerCase().startsWith(`/${TARGET_USERNAME.toLowerCase()}/following`)) {
+      parseSsrHtmlFollowingData(document.documentElement?.innerHTML || '', collected);
+      scanModernDomUsers(document, collected);
+    }
+
+    // Spawn an in-viewport near-transparent iframe so IntersectionObserver & virtual list scroll properly
+    await new Promise((resolve) => {
+      const attach = () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `${location.origin}/${TARGET_USERNAME}/following?ctv_sync=1`;
+        Object.assign(iframe.style, {
+          position: 'fixed',
+          width: '380px',
+          height: '520px',
+          right: '0px',
+          bottom: '0px',
+          opacity: '0.01',
+          pointerEvents: 'none',
+          zIndex: '-1',
+          border: 'none'
+        });
+
+        const cleanup = () => {
+          window.removeEventListener('message', onMsg);
+          clearTimeout(safetyTimer);
+          iframe.remove();
+          resolve();
+        };
+
+        const onMsg = (event) => {
+          if (event.origin !== location.origin) return;
+          const data = event.data;
+          if (!data || data.source !== MSG_SOURCE || data.type !== 'FOLLOWING_HARVEST_COMPLETE') return;
+          if (Array.isArray(data.accounts)) {
+            for (const acc of data.accounts) {
+              recordAccountIntoMap(collected, acc);
+            }
+          }
+          cleanup();
+        };
+
+        const safetyTimer = setTimeout(cleanup, 75000);
+        window.addEventListener('message', onMsg);
+        document.body.appendChild(iframe);
+      };
+
+      if (document.body) attach();
+      else document.addEventListener('DOMContentLoaded', attach, { once: true });
+    });
+
+    return collected.size > 0;
   }
 
   function utf8ToBase64(str) {
@@ -279,8 +568,8 @@
         method,
         url,
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github+json',
           'Content-Type': 'application/json',
           'X-GitHub-Api-Version': '2022-11-28'
         },
@@ -289,11 +578,11 @@
           if (res.status >= 200 && res.status < 300) {
             try {
               resolve(res.responseText ? JSON.parse(res.responseText) : {});
-            } catch (e) {
+            } catch (_) {
               resolve({});
             }
           } else {
-            reject(new Error(`GitHub HTTP ${res.status}: ${res.responseText?.slice(0, 180)}`));
+            reject(new Error(`GitHub HTTP ${res.status}: ${(res.responseText || '').slice(0, 160)}`));
           }
         },
         onerror: () => reject(new Error('Network error contacting api.github.com'))
@@ -301,12 +590,9 @@
     });
   }
 
-  async function uploadAccountsToGitHub(rawAccounts, manual = false) {
-    const token = (GM_getValue(STORAGE_KEYS.GITHUB_PAT, '') || '').trim();
-    if (!token) {
-      if (manual) promptForToken();
-      return;
-    }
+  async function uploadAccountsToGitHub(rawAccounts) {
+    const token = getGithubToken();
+    if (!token) throw new Error('Missing GitHub token');
 
     const minFollowers = Number(GM_getValue(STORAGE_KEYS.MIN_FOLLOWERS, 0)) || 0;
     const customPinnedStr = GM_getValue(STORAGE_KEYS.PINNED_HANDLES, 'SpaceX,TWiT');
@@ -319,7 +605,7 @@
 
     const byHandle = new Map();
 
-    // Seed pinned defaults first so custom subtitles are preserved
+    // Seed pinned defaults so custom subtitles are preserved
     for (const p of DEFAULT_PINNED) {
       if (pinnedSet.has(p.handle.toLowerCase())) {
         byHandle.set(p.handle.toLowerCase(), {
@@ -337,7 +623,6 @@
       const lower = acc.handle.toLowerCase();
       const isPinned = pinnedSet.has(lower);
 
-      // Skip accounts with 0 tweets or below optional follower filter (unless pinned)
       if (!isPinned && acc.statuses_count === 0) continue;
       if (!isPinned && minFollowers > 0 && (acc.followers_count || 0) < minFollowers) continue;
 
@@ -351,7 +636,6 @@
       });
     }
 
-    // Sort: pinned first, then verified broadcasters, then highest follower count
     const sortedAccounts = Array.from(byHandle.values()).sort((a, b) => {
       const aPin = pinnedSet.has(a.handle.toLowerCase()) ? 1 : 0;
       const bPin = pinnedSet.has(b.handle.toLowerCase()) ? 1 : 0;
@@ -383,18 +667,26 @@
       ...(existingSha ? { sha: existingSha } : {})
     });
 
-    GM_setValue(STORAGE_KEYS.LAST_SYNC_MS, Date.now());
-    if (manual) {
-      showBanner(`Synced ${sortedAccounts.length} followed accounts to GitHub!`);
-    }
+    const now = Date.now();
+    GM_setValue(STORAGE_KEYS.LAST_SYNC_MS, now);
+    GM_setValue(
+      STORAGE_KEYS.LAST_SYNC_STATUS,
+      `Synced ${sortedAccounts.length} accounts at ${new Date(now).toLocaleString()}`
+    );
+    return sortedAccounts.length;
   }
 
-  function runFollowingSync({ manual = false } = {}) {
-    const token = (GM_getValue(STORAGE_KEYS.GITHUB_PAT, '') || '').trim();
+  let syncInFlight = false;
+
+  async function runFollowingSync({ manual = false } = {}) {
+    const token = getGithubToken();
     if (!token) {
-      if (manual) {
-        promptForToken();
-      }
+      if (manual) openTokenModal();
+      return;
+    }
+
+    if (syncInFlight) {
+      if (manual) showBanner('Sync is already running...');
       return;
     }
 
@@ -402,75 +694,182 @@
     const lockUntil = Number(GM_getValue(STORAGE_KEYS.SYNC_LOCK_UNTIL, 0)) || 0;
     if (!manual && now < lockUntil) return;
 
+    if (!getCsrfToken()) {
+      if (manual) showBanner('Please sign in to X.com first so your following list can be read.', { isError: true });
+      return;
+    }
+
+    syncInFlight = true;
     GM_setValue(STORAGE_KEYS.SYNC_LOCK_UNTIL, now + SYNC_LOCK_MS);
     if (manual) {
-      showBanner(`Scanning @${TARGET_USERNAME} following list...`);
+      showBanner(`Scanning @${TARGET_USERNAME} following list...`, { durationMs: 0 });
     }
 
-    const attachIframe = () => {
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://x.com/${TARGET_USERNAME}/following?ctv_sync=1`;
-      Object.assign(iframe.style, {
-        position: 'fixed',
-        width: '420px',
-        height: '700px',
-        left: '-9999px',
-        top: '-9999px',
-        opacity: '0',
-        pointerEvents: 'none'
-      });
+    try {
+      const collected = new Map();
 
-      const cleanup = () => {
-        window.removeEventListener('message', onMsg);
-        clearTimeout(safetyTimer);
-        iframe.remove();
-        GM_setValue(STORAGE_KEYS.SYNC_LOCK_UNTIL, 0);
-      };
+      // 1. Fast direct 2026 x-web Relay GraphQL pagination
+      try {
+        await harvestViaRelayGraphql(collected);
+      } catch (e) {
+        console.warn('[CTV X Sync] Relay GraphQL strategy error:', e);
+      }
 
-      const onMsg = async (event) => {
-        if (event.origin !== location.origin) return;
-        const data = event.data;
-        if (!data || data.source !== MSG_SOURCE || data.type !== 'FOLLOWING_HARVEST_COMPLETE') return;
-        cleanup();
-
-        if (!Array.isArray(data.accounts) || data.accounts.length === 0) {
-          if (manual) showBanner('No accounts found (make sure you are signed in to X).', true);
-          return;
-        }
-
+      // 2. Fallback to REST v1.1 friends/list.json
+      if (collected.size === 0) {
         try {
-          await uploadAccountsToGitHub(data.accounts, manual);
-        } catch (err) {
-          console.error('[CTV X Sync] Upload failed:', err);
-          if (manual) showBanner(`Upload failed: ${err.message}`, true);
+          await harvestViaRestV1(collected);
+        } catch (e) {
+          console.warn('[CTV X Sync] REST v1.1 strategy error:', e);
         }
-      };
+      }
 
-      const safetyTimer = setTimeout(() => {
-        cleanup();
-      }, 120000);
+      // 3. Fallback to SSR HTML + live 2026 x-web iframe scroller
+      if (collected.size === 0) {
+        await harvestViaSsrAndIframe(collected);
+      }
 
-      window.addEventListener('message', onMsg);
-      document.body.appendChild(iframe);
-    };
+      const accounts = Array.from(collected.values());
+      if (accounts.length === 0) {
+        GM_setValue(
+          STORAGE_KEYS.LAST_SYNC_STATUS,
+          `Failed at ${new Date().toLocaleString()}: 0 followed accounts detected`
+        );
+        if (manual) {
+          showBanner('Could not detect followed accounts — make sure you are logged in to @alexkillby on X.', {
+            isError: true
+          });
+        }
+        return;
+      }
 
-    if (document.body) attachIframe();
-    else document.addEventListener('DOMContentLoaded', attachIframe, { once: true });
+      const count = await uploadAccountsToGitHub(accounts);
+      showBanner(`Synced ${count} followed accounts to CTV News TV!`, {
+        durationMs: manual ? 8000 : 4500
+      });
+    } catch (err) {
+      console.error('[CTV X Sync] Sync error:', err);
+      GM_setValue(
+        STORAGE_KEYS.LAST_SYNC_STATUS,
+        `Error at ${new Date().toLocaleString()}: ${err.message}`
+      );
+      showBanner(`Sync failed: ${err.message}`, { isError: true, durationMs: 9000 });
+    } finally {
+      syncInFlight = false;
+      GM_setValue(STORAGE_KEYS.SYNC_LOCK_UNTIL, 0);
+    }
   }
 
-  function promptForToken() {
-    const current = GM_getValue(STORAGE_KEYS.GITHUB_PAT, '');
-    const input = window.prompt(
-      `Enter a Fine-Grained GitHub Personal Access Token with Contents Read/Write on ${GITHUB_OWNER}/${GITHUB_REPO}:`,
-      current
-    );
-    if (input !== null) {
-      GM_setValue(STORAGE_KEYS.GITHUB_PAT, input.trim());
-      if (input.trim()) {
-        showBanner('GitHub token saved! Starting initial sync...');
-        runFollowingSync({ manual: true });
-      }
-    }
+  // Clean inline modal for setting GitHub PAT (never blocked by Violentmonkey popup focus)
+  function openTokenModal() {
+    const attach = () => {
+      document.getElementById('ctv-x-token-modal')?.remove();
+
+      const backdrop = document.createElement('div');
+      backdrop.id = 'ctv-x-token-modal';
+      Object.assign(backdrop.style, {
+        position: 'fixed',
+        inset: '0',
+        zIndex: '2147483646',
+        background: 'rgba(0, 0, 0, 0.72)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
+      });
+
+      const card = document.createElement('div');
+      Object.assign(card.style, {
+        width: 'min(460px, 92vw)',
+        background: '#0f172a',
+        color: '#f8fafc',
+        border: '1px solid #38bdf8',
+        borderRadius: '14px',
+        padding: '20px',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.65)'
+      });
+
+      const title = document.createElement('div');
+      title.textContent = '📺 CTV News TV — GitHub Sync Token';
+      Object.assign(title.style, { fontSize: '16px', fontWeight: '700', marginBottom: '8px' });
+
+      const desc = document.createElement('div');
+      desc.textContent = `Paste a GitHub Personal Access Token with Contents (Read & Write) permission on ${GITHUB_OWNER}/${GITHUB_REPO}. Once saved, syncing runs automatically once per day whenever X.com is open.`;
+      Object.assign(desc.style, { fontSize: '13px', color: '#cbd5e1', lineHeight: '1.45', marginBottom: '14px' });
+
+      const input = document.createElement('input');
+      input.type = 'password';
+      input.placeholder = 'github_pat_... or ghp_...';
+      input.value = getGithubToken();
+      Object.assign(input.style, {
+        width: '100%',
+        boxSizing: 'border-box',
+        padding: '10px 12px',
+        borderRadius: '8px',
+        border: '1px solid #475569',
+        background: '#1e293b',
+        color: '#f8fafc',
+        fontSize: '13.5px',
+        marginBottom: '14px',
+        outline: 'none'
+      });
+
+      const btnRow = document.createElement('div');
+      Object.assign(btnRow.style, { display: 'flex', justifyContent: 'flex-end', gap: '10px' });
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.textContent = 'Cancel';
+      Object.assign(cancelBtn.style, {
+        padding: '8px 14px',
+        borderRadius: '8px',
+        border: '1px solid #475569',
+        background: 'transparent',
+        color: '#cbd5e1',
+        cursor: 'pointer',
+        fontSize: '13px'
+      });
+      cancelBtn.onclick = () => backdrop.remove();
+
+      const saveBtn = document.createElement('button');
+      saveBtn.textContent = 'Save & Sync Now';
+      Object.assign(saveBtn.style, {
+        padding: '8px 16px',
+        borderRadius: '8px',
+        border: 'none',
+        background: '#0284c7',
+        color: '#ffffff',
+        fontWeight: '600',
+        cursor: 'pointer',
+        fontSize: '13px'
+      });
+      saveBtn.onclick = () => {
+        const cleaned = input.value.trim().replace(/^["']+|["']+$/g, '');
+        GM_setValue(STORAGE_KEYS.GITHUB_PAT, cleaned);
+        backdrop.remove();
+        if (cleaned) {
+          runFollowingSync({ manual: true });
+        } else {
+          showBanner('GitHub token cleared.');
+        }
+      };
+
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') saveBtn.click();
+        if (e.key === 'Escape') backdrop.remove();
+      });
+
+      btnRow.append(cancelBtn, saveBtn);
+      card.append(title, desc, input, btnRow);
+      backdrop.appendChild(card);
+      backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) backdrop.remove();
+      });
+      document.body.appendChild(backdrop);
+      setTimeout(() => input.focus(), 50);
+    };
+
+    if (document.body) attach();
+    else document.addEventListener('DOMContentLoaded', attach, { once: true });
   }
 
   function promptForMinFollowers() {
@@ -485,25 +884,42 @@
     }
   }
 
-  // Register Tampermonkey / Violentmonkey extension menu commands
+  function showLastSyncStatus() {
+    const status = GM_getValue(STORAGE_KEYS.LAST_SYNC_STATUS, 'Never synced yet');
+    const hasToken = Boolean(getGithubToken());
+    showBanner(`${status} • Token: ${hasToken ? 'Configured' : 'Not set'}`, { durationMs: 8000 });
+  }
+
+  // Register Violentmonkey / Tampermonkey toolbar commands
   if (typeof GM_registerMenuCommand === 'function') {
-    GM_registerMenuCommand('🔑 Set GitHub Token (ctv-x-feeds)', promptForToken);
+    GM_registerMenuCommand('🔑 Set GitHub Token (ctv-x-feeds)', openTokenModal);
     GM_registerMenuCommand(`🔄 Sync @${TARGET_USERNAME} Following Now`, () => runFollowingSync({ manual: true }));
+    GM_registerMenuCommand('📊 View Last Sync Status', showLastSyncStatus);
     GM_registerMenuCommand('⚙️ Set Minimum Follower Filter', promptForMinFollowers);
   }
 
-  // Automatic daily check (runs at most once per 24 hours when browsing x.com)
-  const token = (GM_getValue(STORAGE_KEYS.GITHUB_PAT, '') || '').trim();
-  const lastSync = Number(GM_getValue(STORAGE_KEYS.LAST_SYNC_MS, 0)) || 0;
-  if (!token) {
-    // Remind once per browser session until configured
-    if (!sessionStorage.getItem('ctv_pat_reminded')) {
-      sessionStorage.setItem('ctv_pat_reminded', '1');
-      setTimeout(() => {
-        showBanner('Click Tampermonkey icon → "Set GitHub Token" to enable daily TV sync.');
-      }, 4000);
+  // Automatic hands-free daily check (on page load, tab focus/visibility, and every 30 min on open tabs)
+  function maybeAutoSync() {
+    const token = getGithubToken();
+    if (!token) {
+      if (!sessionStorage.getItem('ctv_pat_reminded')) {
+        sessionStorage.setItem('ctv_pat_reminded', '1');
+        showBanner('Click Violentmonkey icon → "🔑 Set GitHub Token" once to enable automatic daily TV sync.');
+      }
+      return;
     }
-  } else if (Date.now() - lastSync >= SYNC_INTERVAL_MS) {
-    setTimeout(() => runFollowingSync({ manual: false }), 5000);
+
+    const lastSync = Number(GM_getValue(STORAGE_KEYS.LAST_SYNC_MS, 0)) || 0;
+    if (Date.now() - lastSync >= SYNC_INTERVAL_MS) {
+      runFollowingSync({ manual: false });
+    }
   }
+
+  setTimeout(maybeAutoSync, 3500);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      setTimeout(maybeAutoSync, 1500);
+    }
+  });
+  setInterval(maybeAutoSync, AUTO_CHECK_MS);
 })();
