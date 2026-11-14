@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "source_account": "alexkillby",
+  "updated_at": "2026-11-14T02:15:00Z",
+  "total_following_scanned": 2,
+  "accounts": [
+    {
+      "handle": "SpaceX",
+      "name": "SpaceX",
+      "followers_count": 36000000,
+      "verified": true,
+      "subtitle": "Live Launch Coverage • X (@SpaceX)"
+    },
+    {
+      "handle": "TWiT",
+      "name": "TWiT",
+      "followers_count": 90000,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@TWiT)"
+    }
+  ]
+}
