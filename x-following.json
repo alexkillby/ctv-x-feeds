@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-14T03:36:34.177Z",
-  "total_following_scanned": 1799,
+  "updated_at": "2026-11-15T18:54:14.311Z",
+  "total_following_scanned": 1800,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,20 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "samsheffer",
+      "name": "Sam Sheffer",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@samsheffer)"
+    },
+    {
+      "handle": "wzhang",
+      "name": "William Zhang",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@wzhang)"
     },
     {
       "handle": "vizhang",
@@ -1207,13 +1221,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@andrewcyu)"
-    },
-    {
-      "handle": "PrestonDelToro",
-      "name": "Prêstón Alfónső Di Luppo Párra Matteo del Tóro",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@PrestonDelToro)"
     },
     {
       "handle": "CDP1882",
@@ -6585,6 +6592,13 @@
       "subtitle": "Live Broadcast • X (@gregjames)"
     },
     {
+      "handle": "kazuto_aby",
+      "name": "kazuto",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@kazuto_aby)"
+    },
+    {
       "handle": "ZvxyWu",
       "name": "Zach Wu",
       "followers_count": 0,
@@ -8613,13 +8627,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@KeatonPatti)"
-    },
-    {
-      "handle": "gorsheep",
-      "name": "Daniil Voloshin",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@gorsheep)"
     },
     {
       "handle": "SteinJanice",
