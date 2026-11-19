@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-19T02:26:44.919Z",
-  "total_following_scanned": 1804,
+  "updated_at": "2026-11-19T17:57:21.901Z",
+  "total_following_scanned": 1805,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "teddywang86",
+      "name": "teddywang86",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@teddywang86)"
     },
     {
       "handle": "OfficialLoganK",
@@ -3211,6 +3218,13 @@
       "subtitle": "Live Broadcast • X (@AaronGunn)"
     },
     {
+      "handle": "mediterraneanAE",
+      "name": "Mediterranean Aesthetics",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@mediterraneanAE)"
+    },
+    {
       "handle": "Conservative_BC",
       "name": "Conservative Party of BC",
       "followers_count": 0,
@@ -4840,6 +4854,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@rojtirona)"
+    },
+    {
+      "handle": "travishines",
+      "name": "Travis Hines",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@travishines)"
     },
     {
       "handle": "OnyxBoox",
@@ -8027,13 +8048,6 @@
       "subtitle": "Live Broadcast • X (@robhadds)"
     },
     {
-      "handle": "mediterraneanAE",
-      "name": "Mediterranean Aesthetics",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@mediterraneanAE)"
-    },
-    {
       "handle": "_ChanFace",
       "name": "C",
       "followers_count": 0,
@@ -9222,13 +9236,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@effwu)"
-    },
-    {
-      "handle": "travishines",
-      "name": "Travis Hines",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@travishines)"
     },
     {
       "handle": "TheCatSaysMao",
