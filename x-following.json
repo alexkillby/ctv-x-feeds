@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-15T18:54:14.311Z",
-  "total_following_scanned": 1800,
+  "updated_at": "2026-11-19T02:26:44.919Z",
+  "total_following_scanned": 1804,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,20 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "OfficialLoganK",
+      "name": "Logan Kilpatrick",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@OfficialLoganK)"
+    },
+    {
+      "handle": "ivanleomk",
+      "name": "Ivan Leo",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@ivanleomk)"
     },
     {
       "handle": "samsheffer",
@@ -930,7 +944,7 @@
     },
     {
       "handle": "LawgicalXX",
-      "name": "Tatyana 🇺🇸",
+      "name": "Tatyana L",
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@LawgicalXX)"
@@ -1221,6 +1235,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@andrewcyu)"
+    },
+    {
+      "handle": "PrestonDelToro",
+      "name": "Prêstón Alfónső Di Luppo Párra Matteo del Tóro",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@PrestonDelToro)"
     },
     {
       "handle": "CDP1882",
@@ -2588,13 +2609,6 @@
       "subtitle": "Live Broadcast • X (@DavidColetto)"
     },
     {
-      "handle": "hvgzoo",
-      "name": "Hugoツ",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@hvgzoo)"
-    },
-    {
       "handle": "QiLikeCheetah",
       "name": "Qi Cao, Chargebacks Terminator 🦾",
       "followers_count": 0,
@@ -2705,6 +2719,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@ModdedQuad)"
+    },
+    {
+      "handle": "anthonykfho",
+      "name": "Anthony Ho",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@anthonykfho)"
     },
     {
       "handle": "EricDLombardi",
@@ -3020,6 +3041,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@IDF)"
+    },
+    {
+      "handle": "eva_kurilova",
+      "name": "Eva Kurilova",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@eva_kurilova)"
     },
     {
       "handle": "benjaminfelix",
@@ -6592,6 +6620,13 @@
       "subtitle": "Live Broadcast • X (@gregjames)"
     },
     {
+      "handle": "scotthoho",
+      "name": "Scott Ho",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@scotthoho)"
+    },
+    {
       "handle": "kazuto_aby",
       "name": "kazuto",
       "followers_count": 0,
@@ -7593,6 +7628,13 @@
       "subtitle": "Live Broadcast • X (@klinkenborgen2)"
     },
     {
+      "handle": "hvgzoo",
+      "name": "Hugoツ",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@hvgzoo)"
+    },
+    {
       "handle": "adrianbatdev",
       "name": "Adrian Batista 👨‍💻🇧🇷",
       "followers_count": 0,
@@ -7689,13 +7731,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@CanadasNAC)"
-    },
-    {
-      "handle": "anthonykfho",
-      "name": "Anthony Ho",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@anthonykfho)"
     },
     {
       "handle": "gmacofglebe",
@@ -7920,13 +7955,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheWarAmps)"
-    },
-    {
-      "handle": "eva_kurilova",
-      "name": "Eva Kurilova",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@eva_kurilova)"
     },
     {
       "handle": "bschmermund",
