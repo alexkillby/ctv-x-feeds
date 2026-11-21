@@ -1,9 +1,32 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-21T19:49:50.959Z",
+  "updated_at": "2026-11-21T20:02:43.283Z",
   "min_duration_seconds": 300,
   "window_days": 30,
-  "total_videos": 0,
-  "videos": []
+  "total_videos": 2,
+  "videos": [
+    {
+      "tweet_id": "2124072491987730529",
+      "handle": "teddywang86",
+      "author_name": "teddywang86",
+      "title": "I Tried 1 New AI Tool Every Day for 365 Days. Day 3 Part 5 - I Made an AI Talk to Herself",
+      "published_at_ms": 1795253320000,
+      "published_at": "2026-11-21T09:28:40.000Z",
+      "duration_seconds": 572,
+      "stream_url": "https://video.twimg.com/amplify_video/2124071875823517696/pl/L_j14grErKvRaFkD.m3u8?tag=29&v=37e",
+      "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2124071875823517696/img/JbnxSEAtwUKGYCnN.jpg"
+    },
+    {
+      "tweet_id": "2123008236110614643",
+      "handle": "teddywang86",
+      "author_name": "teddywang86",
+      "title": "I Tried 1 New AI Tool Every Day for 365 Days. Day 3 Part 2 - I Showed an AI Her Own Face",
+      "published_at_ms": 1794999581000,
+      "published_at": "2026-11-18T10:59:41.000Z",
+      "duration_seconds": 1197,
+      "stream_url": "https://video.twimg.com/amplify_video/2123007870048653312/pl/ptomQn4Jmt91T64z.m3u8?tag=29&v=b49",
+      "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2123007870048653312/img/PDffJJ5B__pZ89B2.jpg"
+    }
+  ]
 }
