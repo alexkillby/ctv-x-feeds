@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CTV News TV — Sync @alexkillby X Following & On-Demand Videos
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.2.0
+// @version      1.2.1
 // @description  Syncs @alexkillby's followed X accounts and long-form videos (5m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
 // @author       Alex Killby
 // @match        https://x.com/*
@@ -576,6 +576,7 @@
           Authorization: `Bearer ${token}`,
           Accept: 'application/vnd.github+json',
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
           'X-GitHub-Api-Version': '2022-11-28'
         },
         data: bodyObj ? JSON.stringify(bodyObj) : undefined,
@@ -587,12 +588,48 @@
               resolve({});
             }
           } else {
-            reject(new Error(`GitHub HTTP ${res.status}: ${(res.responseText || '').slice(0, 160)}`));
+            const err = new Error(`GitHub HTTP ${res.status}: ${(res.responseText || '').slice(0, 160)}`);
+            err.status = res.status;
+            reject(err);
           }
         },
         onerror: () => reject(new Error('Network error contacting api.github.com'))
       });
     });
+  }
+
+  async function githubPutFileWithRetry(filePath, commitMessage, contentStr, token, maxAttempts = 4) {
+    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
+    const encodedContent = utf8ToBase64(contentStr);
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      let existingSha = undefined;
+      try {
+        // Cache-bust GET so browser/CDN never hands back a stale SHA
+        const existing = await githubRequest('GET', `${apiUrl}?_=${Date.now()}`, token);
+        existingSha = existing?.sha;
+      } catch (err) {
+        if (err.status !== 404 && !String(err.message).includes('404')) throw err;
+      }
+
+      try {
+        await githubRequest('PUT', apiUrl, token, {
+          message: commitMessage,
+          content: encodedContent,
+          ...(existingSha ? { sha: existingSha } : {})
+        });
+        return;
+      } catch (err) {
+        const isConflict = err.status === 409 || String(err.message).includes('HTTP 409');
+        if (isConflict && attempt < maxAttempts) {
+          const backoffMs = 450 * attempt + Math.floor(Math.random() * 400);
+          console.warn(`[CTV X Sync] HTTP 409 SHA conflict on ${filePath} (attempt ${attempt}/${maxAttempts}); retrying in ${backoffMs}ms...`);
+          await new Promise((r) => setTimeout(r, backoffMs));
+          continue;
+        }
+        throw err;
+      }
+    }
   }
 
   async function uploadAccountsToGitHub(rawAccounts) {
@@ -657,20 +694,12 @@
       accounts: sortedAccounts
     };
 
-    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_FILE_PATH}`;
-    let existingSha = undefined;
-    try {
-      const existing = await githubRequest('GET', apiUrl, token);
-      existingSha = existing?.sha;
-    } catch (err) {
-      if (!String(err.message).includes('404')) throw err;
-    }
-
-    await githubRequest('PUT', apiUrl, token, {
-      message: `chore(sync): update @${TARGET_USERNAME} following list (${sortedAccounts.length} accounts)`,
-      content: utf8ToBase64(JSON.stringify(payload, null, 2) + '\n'),
-      ...(existingSha ? { sha: existingSha } : {})
-    });
+    await githubPutFileWithRetry(
+      GITHUB_FILE_PATH,
+      `chore(sync): update @${TARGET_USERNAME} following list (${sortedAccounts.length} accounts)`,
+      JSON.stringify(payload, null, 2) + '\n',
+      token
+    );
 
     const now = Date.now();
     GM_setValue(STORAGE_KEYS.LAST_SYNC_MS, now);
@@ -1039,20 +1068,12 @@
       videos
     };
 
-    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_VIDEOS_FILE_PATH}`;
-    let existingSha = undefined;
-    try {
-      const existing = await githubRequest('GET', apiUrl, token);
-      existingSha = existing?.sha;
-    } catch (err) {
-      if (!String(err.message).includes('404')) throw err;
-    }
-
-    await githubRequest('PUT', apiUrl, token, {
-      message: `chore(sync): update @${TARGET_USERNAME} long-form X videos (${videos.length} videos)`,
-      content: utf8ToBase64(JSON.stringify(payload, null, 2) + '\n'),
-      ...(existingSha ? { sha: existingSha } : {})
-    });
+    await githubPutFileWithRetry(
+      GITHUB_VIDEOS_FILE_PATH,
+      `chore(sync): update @${TARGET_USERNAME} long-form X videos (${videos.length} videos)`,
+      JSON.stringify(payload, null, 2) + '\n',
+      token
+    );
 
     return videos.length;
   }
