@@ -1,13 +1,13 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-21T19:44:38.987Z",
+  "updated_at": "2026-11-21T19:49:36.340Z",
   "total_following_scanned": 1807,
   "accounts": [
     {
       "handle": "SpaceX",
       "name": "SpaceX",
-      "followers_count": 41935927,
+      "followers_count": 41935942,
       "verified": true,
       "subtitle": "Live Launch Coverage • X (@SpaceX)"
     },
@@ -21,126 +21,126 @@
     {
       "handle": "elonmusk",
       "name": "Elon Musk",
-      "followers_count": 240339093,
+      "followers_count": 240339136,
       "verified": false,
       "subtitle": "Live Broadcast • X (@elonmusk)"
     },
     {
       "handle": "BarackObama",
       "name": "Barack Obama",
-      "followers_count": 118628840,
+      "followers_count": 118628835,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BarackObama)"
     },
     {
       "handle": "realDonaldTrump",
       "name": "Donald J. Trump",
-      "followers_count": 111782616,
+      "followers_count": 111782640,
       "verified": false,
       "subtitle": "Live Broadcast • X (@realDonaldTrump)"
     },
     {
       "handle": "NASA",
       "name": "NASA",
-      "followers_count": 92171127,
+      "followers_count": 92170295,
       "verified": false,
       "subtitle": "Live Broadcast • X (@NASA)"
     },
     {
       "handle": "justinbieber",
       "name": "Justin Bieber",
-      "followers_count": 91725693,
+      "followers_count": 91725692,
       "verified": false,
       "subtitle": "Live Broadcast • X (@justinbieber)"
     },
     {
       "handle": "YouTube",
       "name": "YouTube",
-      "followers_count": 68645067,
+      "followers_count": 68645070,
       "verified": false,
       "subtitle": "Live Broadcast • X (@YouTube)"
     },
     {
       "handle": "BillGates",
       "name": "Bill Gates",
-      "followers_count": 65195501,
+      "followers_count": 65195509,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BillGates)"
     },
     {
       "handle": "TheEllenShow",
       "name": "The Ellen Show",
-      "followers_count": 62098368,
+      "followers_count": 62098369,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheEllenShow)"
     },
     {
       "handle": "X",
       "name": "X",
-      "followers_count": 60595490,
+      "followers_count": 60595498,
       "verified": false,
       "subtitle": "Live Broadcast • X (@X)"
     },
     {
       "handle": "BBCBreaking",
       "name": "BBC Breaking News",
-      "followers_count": 50173937,
+      "followers_count": 50173944,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BBCBreaking)"
     },
     {
       "handle": "BBCWorld",
       "name": "BBC News (World)",
-      "followers_count": 42345758,
+      "followers_count": 42345772,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BBCWorld)"
     },
     {
       "handle": "POTUS46Archive",
       "name": "President Biden Archived",
-      "followers_count": 35273405,
+      "followers_count": 35273403,
       "verified": false,
       "subtitle": "Live Broadcast • X (@POTUS46Archive)"
     },
     {
       "handle": "Google",
       "name": "Google",
-      "followers_count": 31865041,
+      "followers_count": 31865046,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Google)"
     },
     {
       "handle": "HillaryClinton",
       "name": "Hillary Clinton",
-      "followers_count": 29238517,
+      "followers_count": 29238518,
       "verified": false,
       "subtitle": "Live Broadcast • X (@HillaryClinton)"
     },
     {
       "handle": "instagram",
       "name": "Instagram",
-      "followers_count": 27404204,
+      "followers_count": 27404202,
       "verified": false,
       "subtitle": "Live Broadcast • X (@instagram)"
     },
     {
       "handle": "TheEconomist",
       "name": "The Economist",
-      "followers_count": 26346166,
+      "followers_count": 26346179,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheEconomist)"
     },
     {
       "handle": "Tesla",
       "name": "Tesla",
-      "followers_count": 24899827,
+      "followers_count": 24899852,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Tesla)"
     },
     {
       "handle": "EmmaWatson",
       "name": "Emma Watson",
-      "followers_count": 23586670,
+      "followers_count": 23586671,
       "verified": false,
       "subtitle": "Live Broadcast • X (@EmmaWatson)"
     },
@@ -161,21 +161,21 @@
     {
       "handle": "tim_cook",
       "name": "Tim Cook",
-      "followers_count": 20408315,
+      "followers_count": 20408324,
       "verified": false,
       "subtitle": "Live Broadcast • X (@tim_cook)"
     },
     {
       "handle": "TuckerCarlson",
       "name": "Tucker Carlson",
-      "followers_count": 17956407,
+      "followers_count": 17956414,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TuckerCarlson)"
     },
     {
       "handle": "Pontifex",
       "name": "Pope Leo XIV",
-      "followers_count": 17896569,
+      "followers_count": 17896572,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Pontifex)"
     },
@@ -189,28 +189,28 @@
     {
       "handle": "DalaiLama",
       "name": "Dalai Lama",
-      "followers_count": 16577527,
+      "followers_count": 16577528,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DalaiLama)"
     },
     {
       "handle": "DonaldJTrumpJr",
       "name": "Donald Trump Jr.",
-      "followers_count": 16126966,
+      "followers_count": 16126969,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DonaldJTrumpJr)"
     },
     {
       "handle": "UN",
       "name": "United Nations",
-      "followers_count": 16104814,
+      "followers_count": 16104818,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UN)"
     },
     {
       "handle": "joerogan",
       "name": "Joe Rogan",
-      "followers_count": 15664688,
+      "followers_count": 15664691,
       "verified": false,
       "subtitle": "Live Broadcast • X (@joerogan)"
     },
@@ -245,14 +245,14 @@
     {
       "handle": "WHO",
       "name": "World Health Organization (WHO)",
-      "followers_count": 12657029,
+      "followers_count": 12657031,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WHO)"
     },
     {
       "handle": "BillClinton",
       "name": "Bill Clinton",
-      "followers_count": 12324941,
+      "followers_count": 12324940,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BillClinton)"
     },
@@ -266,7 +266,7 @@
     {
       "handle": "sundarpichai",
       "name": "Sundar Pichai",
-      "followers_count": 11871661,
+      "followers_count": 11871672,
       "verified": false,
       "subtitle": "Live Broadcast • X (@sundarpichai)"
     },
@@ -280,28 +280,28 @@
     {
       "handle": "SenSanders",
       "name": "Sen. Bernie Sanders",
-      "followers_count": 11542980,
+      "followers_count": 11542982,
       "verified": false,
       "subtitle": "Live Broadcast • X (@SenSanders)"
     },
     {
       "handle": "UNICEF",
       "name": "UNICEF",
-      "followers_count": 10997191,
+      "followers_count": 10997218,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UNICEF)"
     },
     {
       "handle": "ObamaWhiteHouse",
       "name": "White House Archived",
-      "followers_count": 10641278,
+      "followers_count": 10641264,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ObamaWhiteHouse)"
     },
     {
       "handle": "JeffBezos",
       "name": "Jeff Bezos",
-      "followers_count": 10246852,
+      "followers_count": 10246860,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JeffBezos)"
     },
@@ -315,28 +315,28 @@
     {
       "handle": "billmaher",
       "name": "Bill Maher",
-      "followers_count": 10089242,
+      "followers_count": 10089222,
       "verified": false,
       "subtitle": "Live Broadcast • X (@billmaher)"
     },
     {
       "handle": "maddow",
       "name": "Rachel Maddow",
-      "followers_count": 9676444,
+      "followers_count": 9676387,
       "verified": false,
       "subtitle": "Live Broadcast • X (@maddow)"
     },
     {
       "handle": "satyanadella",
       "name": "Satya Nadella",
-      "followers_count": 9562144,
+      "followers_count": 9562150,
       "verified": false,
       "subtitle": "Live Broadcast • X (@satyanadella)"
     },
     {
       "handle": "piersmorgan",
       "name": "Piers Morgan",
-      "followers_count": 8931584,
+      "followers_count": 8931585,
       "verified": false,
       "subtitle": "Live Broadcast • X (@piersmorgan)"
     },
@@ -350,28 +350,28 @@
     {
       "handle": "benshapiro",
       "name": "Ben Shapiro",
-      "followers_count": 8841829,
+      "followers_count": 8841832,
       "verified": false,
       "subtitle": "Live Broadcast • X (@benshapiro)"
     },
     {
       "handle": "andersoncooper",
       "name": "Anderson Cooper",
-      "followers_count": 8809907,
+      "followers_count": 8809917,
       "verified": false,
       "subtitle": "Live Broadcast • X (@andersoncooper)"
     },
     {
       "handle": "QueenRania",
       "name": "Rania Al Abdullah",
-      "followers_count": 8721765,
+      "followers_count": 8721764,
       "verified": false,
       "subtitle": "Live Broadcast • X (@QueenRania)"
     },
     {
       "handle": "chrishemsworth",
       "name": "Chris Hemsworth",
-      "followers_count": 8211971,
+      "followers_count": 8211975,
       "verified": false,
       "subtitle": "Live Broadcast • X (@chrishemsworth)"
     },
@@ -385,28 +385,28 @@
     {
       "handle": "troyesivan",
       "name": "👼🏼",
-      "followers_count": 7534785,
+      "followers_count": 7534784,
       "verified": false,
       "subtitle": "Live Broadcast • X (@troyesivan)"
     },
     {
       "handle": "Burberry",
       "name": "Burberry",
-      "followers_count": 7253913,
+      "followers_count": 7253914,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Burberry)"
     },
     {
       "handle": "pmarca",
       "name": "Marc Andreessen 🇺🇸",
-      "followers_count": 6629521,
+      "followers_count": 6629535,
       "verified": false,
       "subtitle": "Live Broadcast • X (@pmarca)"
     },
     {
       "handle": "GooglePlay",
       "name": "Google Play",
-      "followers_count": 6577578,
+      "followers_count": 6577577,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GooglePlay)"
     },
@@ -420,7 +420,7 @@
     {
       "handle": "AMAZlNGNATURE",
       "name": "Nature is Amazing ☘️",
-      "followers_count": 6226108,
+      "followers_count": 6226110,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AMAZlNGNATURE)"
     },
@@ -434,7 +434,7 @@
     {
       "handle": "MKBHD",
       "name": "Marques Brownlee",
-      "followers_count": 6166316,
+      "followers_count": 6166322,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MKBHD)"
     },
@@ -455,7 +455,7 @@
     {
       "handle": "GovRonDeSantis",
       "name": "Ron DeSantis",
-      "followers_count": 5994573,
+      "followers_count": 5994572,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GovRonDeSantis)"
     },
@@ -469,63 +469,63 @@
     {
       "handle": "RobertKennedyJr",
       "name": "Robert F. Kennedy Jr",
-      "followers_count": 5767707,
+      "followers_count": 5767708,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RobertKennedyJr)"
     },
     {
       "handle": "10DowningStreet",
       "name": "UK Prime Minister",
-      "followers_count": 5626988,
+      "followers_count": 5626989,
       "verified": false,
       "subtitle": "Live Broadcast • X (@10DowningStreet)"
     },
     {
       "handle": "lexfridman",
       "name": "Lex Fridman",
-      "followers_count": 5585888,
+      "followers_count": 5585897,
       "verified": false,
       "subtitle": "Live Broadcast • X (@lexfridman)"
     },
     {
       "handle": "JDVance",
       "name": "JD Vance",
-      "followers_count": 5572299,
+      "followers_count": 5572300,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JDVance)"
     },
     {
       "handle": "Snowden",
       "name": "Edward Snowden",
-      "followers_count": 5504304,
+      "followers_count": 5504306,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Snowden)"
     },
     {
       "handle": "RoyalFamily",
       "name": "The Royal Family",
-      "followers_count": 5423582,
+      "followers_count": 5423583,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RoyalFamily)"
     },
     {
       "handle": "paulg",
       "name": "Paul Graham",
-      "followers_count": 5392814,
+      "followers_count": 5392826,
       "verified": false,
       "subtitle": "Live Broadcast • X (@paulg)"
     },
     {
       "handle": "WhiteHouse",
       "name": "The White House",
-      "followers_count": 5368222,
+      "followers_count": 5368228,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WhiteHouse)"
     },
     {
       "handle": "IngrahamAngle",
       "name": "Laura Ingraham",
-      "followers_count": 5277398,
+      "followers_count": 5277399,
       "verified": false,
       "subtitle": "Live Broadcast • X (@IngrahamAngle)"
     },
@@ -539,42 +539,42 @@
     {
       "handle": "TheBabylonBee",
       "name": "The Babylon Bee",
-      "followers_count": 5245110,
+      "followers_count": 5245111,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheBabylonBee)"
     },
     {
       "handle": "MMFlint",
       "name": "Michael Moore",
-      "followers_count": 5237442,
+      "followers_count": 5237441,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MMFlint)"
     },
     {
       "handle": "JohnLegere",
       "name": "John Legere",
-      "followers_count": 5131830,
+      "followers_count": 5131829,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JohnLegere)"
     },
     {
       "handle": "JohnCleese",
       "name": "John Cleese",
-      "followers_count": 5089333,
+      "followers_count": 5089309,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JohnCleese)"
     },
     {
       "handle": "hrw",
       "name": "Human Rights Watch",
-      "followers_count": 4755486,
+      "followers_count": 4755487,
       "verified": false,
       "subtitle": "Live Broadcast • X (@hrw)"
     },
     {
       "handle": "libsoftiktok",
       "name": "Libs of TikTok",
-      "followers_count": 4745234,
+      "followers_count": 4745235,
       "verified": false,
       "subtitle": "Live Broadcast • X (@libsoftiktok)"
     },
@@ -588,35 +588,35 @@
     {
       "handle": "ShouldHaveCat",
       "name": "Why you should have a cat",
-      "followers_count": 4687685,
+      "followers_count": 4687681,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ShouldHaveCat)"
     },
     {
       "handle": "DOGE",
       "name": "Department of Government Efficiency",
-      "followers_count": 4623121,
+      "followers_count": 4623118,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DOGE)"
     },
     {
       "handle": "JuanManSantos",
       "name": "Juan Manuel Santos",
-      "followers_count": 4561401,
+      "followers_count": 4561395,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JuanManSantos)"
     },
     {
       "handle": "UN_Women",
       "name": "UN Women",
-      "followers_count": 4514309,
+      "followers_count": 4514330,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UN_Women)"
     },
     {
       "handle": "netanyahu",
       "name": "Benjamin Netanyahu - בנימין נתניהו",
-      "followers_count": 4486880,
+      "followers_count": 4486879,
       "verified": false,
       "subtitle": "Live Broadcast • X (@netanyahu)"
     },
@@ -630,7 +630,7 @@
     {
       "handle": "WFP",
       "name": "World Food Programme",
-      "followers_count": 4328716,
+      "followers_count": 4328737,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WFP)"
     },
@@ -658,14 +658,14 @@
     {
       "handle": "googlemaps",
       "name": "Google Maps",
-      "followers_count": 4103215,
+      "followers_count": 4103218,
       "verified": false,
       "subtitle": "Live Broadcast • X (@googlemaps)"
     },
     {
       "handle": "MattWalshBlog",
       "name": "Matt Walsh",
-      "followers_count": 4074157,
+      "followers_count": 4074158,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MattWalshBlog)"
     },
@@ -679,14 +679,14 @@
     {
       "handle": "MarioNawfal",
       "name": "Mario Nawfal",
-      "followers_count": 3991191,
+      "followers_count": 3991196,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MarioNawfal)"
     },
     {
       "handle": "EndWokeness",
       "name": "End Wokeness",
-      "followers_count": 3894085,
+      "followers_count": 3894087,
       "verified": false,
       "subtitle": "Live Broadcast • X (@EndWokeness)"
     },
@@ -714,28 +714,28 @@
     {
       "handle": "durov",
       "name": "Pavel Durov",
-      "followers_count": 3672342,
+      "followers_count": 3672345,
       "verified": false,
       "subtitle": "Live Broadcast • X (@durov)"
     },
     {
       "handle": "engadget",
       "name": "Engadget",
-      "followers_count": 3663232,
+      "followers_count": 3663238,
       "verified": false,
       "subtitle": "Live Broadcast • X (@engadget)"
     },
     {
       "handle": "UNEP",
       "name": "UN Environment Programme",
-      "followers_count": 3621238,
+      "followers_count": 3621256,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UNEP)"
     },
     {
       "handle": "stevewoz",
       "name": "Steve Wozniak",
-      "followers_count": 3618843,
+      "followers_count": 3618844,
       "verified": false,
       "subtitle": "Live Broadcast • X (@stevewoz)"
     },
@@ -770,14 +770,14 @@
     {
       "handle": "Lagarde",
       "name": "Christine Lagarde",
-      "followers_count": 3076457,
+      "followers_count": 3076477,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Lagarde)"
     },
     {
       "handle": "BillAckman",
       "name": "Bill Ackman",
-      "followers_count": 3071298,
+      "followers_count": 3071309,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BillAckman)"
     },
@@ -805,21 +805,21 @@
     {
       "handle": "KensingtonRoyal",
       "name": "The Prince and Princess of Wales",
-      "followers_count": 2889857,
+      "followers_count": 2889861,
       "verified": false,
       "subtitle": "Live Broadcast • X (@KensingtonRoyal)"
     },
     {
       "handle": "DailyMail",
       "name": "Daily Mail",
-      "followers_count": 2884106,
+      "followers_count": 2884107,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DailyMail)"
     },
     {
       "handle": "RichardDawkins",
       "name": "Richard Dawkins",
-      "followers_count": 2859847,
+      "followers_count": 2859846,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RichardDawkins)"
     },
@@ -840,14 +840,14 @@
     {
       "handle": "Timcast",
       "name": "Tim Pool",
-      "followers_count": 2779917,
+      "followers_count": 2779915,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Timcast)"
     },
     {
       "handle": "Refugees",
       "name": "UNHCR, the UN Refugee Agency",
-      "followers_count": 2756242,
+      "followers_count": 2756243,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Refugees)"
     },
@@ -861,7 +861,7 @@
     {
       "handle": "DuckDuckGo",
       "name": "DuckDuckGo",
-      "followers_count": 2639627,
+      "followers_count": 2639617,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DuckDuckGo)"
     },
@@ -896,7 +896,7 @@
     {
       "handle": "realDailyWire",
       "name": "Daily Wire",
-      "followers_count": 2542876,
+      "followers_count": 2542877,
       "verified": false,
       "subtitle": "Live Broadcast • X (@realDailyWire)"
     },
@@ -910,14 +910,14 @@
     {
       "handle": "FilippoGrandi",
       "name": "Filippo Grandi",
-      "followers_count": 2496157,
+      "followers_count": 2496177,
       "verified": false,
       "subtitle": "Live Broadcast • X (@FilippoGrandi)"
     },
     {
       "handle": "GoogleAI",
       "name": "Google AI",
-      "followers_count": 2493214,
+      "followers_count": 2493216,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GoogleAI)"
     },
@@ -938,14 +938,14 @@
     {
       "handle": "WilliamShatner",
       "name": "William Shatner",
-      "followers_count": 2410881,
+      "followers_count": 2410880,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WilliamShatner)"
     },
     {
       "handle": "RishiSunak",
       "name": "Rishi Sunak",
-      "followers_count": 2296713,
+      "followers_count": 2296715,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RishiSunak)"
     },
@@ -959,7 +959,7 @@
     {
       "handle": "BlueJays",
       "name": "Toronto Blue Jays",
-      "followers_count": 2282735,
+      "followers_count": 2282734,
       "verified": false,
       "subtitle": "Live Broadcast • X (@BlueJays)"
     },
@@ -980,7 +980,7 @@
     {
       "handle": "TeamYouTube",
       "name": "TeamYouTube",
-      "followers_count": 2243675,
+      "followers_count": 2243676,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TeamYouTube)"
     },
@@ -1001,7 +1001,7 @@
     {
       "handle": "PahlaviReza",
       "name": "Reza Pahlavi",
-      "followers_count": 2179175,
+      "followers_count": 2179173,
       "verified": false,
       "subtitle": "Live Broadcast • X (@PahlaviReza)"
     },
@@ -1022,7 +1022,7 @@
     {
       "handle": "Cmdr_Hadfield",
       "name": "Chris Hadfield",
-      "followers_count": 2130656,
+      "followers_count": 2130658,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Cmdr_Hadfield)"
     },
@@ -1036,21 +1036,21 @@
     {
       "handle": "SpaceXSI",
       "name": "SpaceX Super Intelligence",
-      "followers_count": 2091118,
+      "followers_count": 2091120,
       "verified": false,
       "subtitle": "Live Broadcast • X (@SpaceXSI)"
     },
     {
       "handle": "Pinterest",
       "name": "Pinterest",
-      "followers_count": 2080153,
+      "followers_count": 2080154,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Pinterest)"
     },
     {
       "handle": "VP44",
       "name": "VP Biden (Archived)",
-      "followers_count": 2060592,
+      "followers_count": 2060593,
       "verified": false,
       "subtitle": "Live Broadcast • X (@VP44)"
     },
@@ -1064,7 +1064,7 @@
     {
       "handle": "AndrewYNg",
       "name": "Andrew Ng",
-      "followers_count": 1980778,
+      "followers_count": 1980784,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AndrewYNg)"
     },
@@ -1085,7 +1085,7 @@
     {
       "handle": "UNDP",
       "name": "UN Development",
-      "followers_count": 1957118,
+      "followers_count": 1957119,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UNDP)"
     },
@@ -1120,14 +1120,14 @@
     {
       "handle": "neuralink",
       "name": "Neuralink",
-      "followers_count": 1841506,
+      "followers_count": 1841516,
       "verified": false,
       "subtitle": "Live Broadcast • X (@neuralink)"
     },
     {
       "handle": "patrickc",
       "name": "Patrick Collison",
-      "followers_count": 1835441,
+      "followers_count": 1835442,
       "verified": false,
       "subtitle": "Live Broadcast • X (@patrickc)"
     },
@@ -1148,14 +1148,14 @@
     {
       "handle": "Medium",
       "name": "Medium",
-      "followers_count": 1812629,
+      "followers_count": 1812628,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Medium)"
     },
     {
       "handle": "JensenHuang",
       "name": "Jensen Huang",
-      "followers_count": 1775622,
+      "followers_count": 1775633,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JensenHuang)"
     },
@@ -1169,7 +1169,7 @@
     {
       "handle": "AutismCapital",
       "name": "Autism Capital 🧩",
-      "followers_count": 1748859,
+      "followers_count": 1748857,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AutismCapital)"
     },
@@ -1190,7 +1190,7 @@
     {
       "handle": "GoogleDeepMind",
       "name": "Google DeepMind",
-      "followers_count": 1619375,
+      "followers_count": 1619362,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GoogleDeepMind)"
     },
@@ -1211,21 +1211,21 @@
     {
       "handle": "the_culturist_",
       "name": "The Culturist",
-      "followers_count": 1580169,
+      "followers_count": 1580168,
       "verified": false,
       "subtitle": "Live Broadcast • X (@the_culturist_)"
     },
     {
       "handle": "geertwilderspvv",
       "name": "Geert Wilders",
-      "followers_count": 1576420,
+      "followers_count": 1576421,
       "verified": false,
       "subtitle": "Live Broadcast • X (@geertwilderspvv)"
     },
     {
       "handle": "mayemusk",
       "name": "Maye Musk",
-      "followers_count": 1553333,
+      "followers_count": 1553334,
       "verified": false,
       "subtitle": "Live Broadcast • X (@mayemusk)"
     },
@@ -1239,7 +1239,7 @@
     {
       "handle": "WarMonitor3",
       "name": "WarMonitor🇺🇦🇬🇧",
-      "followers_count": 1548615,
+      "followers_count": 1548620,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WarMonitor3)"
     },
@@ -1267,7 +1267,7 @@
     {
       "handle": "TheRealBuzz",
       "name": "Dr. Buzz Aldrin",
-      "followers_count": 1482359,
+      "followers_count": 1482358,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheRealBuzz)"
     },
@@ -1281,7 +1281,7 @@
     {
       "handle": "XBusiness",
       "name": "Business",
-      "followers_count": 1451192,
+      "followers_count": 1451193,
       "verified": false,
       "subtitle": "Live Broadcast • X (@XBusiness)"
     },
@@ -1295,7 +1295,7 @@
     {
       "handle": "GadSaad",
       "name": "Gad Saad",
-      "followers_count": 1400456,
+      "followers_count": 1400455,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GadSaad)"
     },
@@ -1323,7 +1323,7 @@
     {
       "handle": "MinPres",
       "name": "Rob Jetten",
-      "followers_count": 1349781,
+      "followers_count": 1349782,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MinPres)"
     },
@@ -1344,7 +1344,7 @@
     {
       "handle": "marissamayer",
       "name": "marissamayer",
-      "followers_count": 1339690,
+      "followers_count": 1339695,
       "verified": false,
       "subtitle": "Live Broadcast • X (@marissamayer)"
     },
@@ -1358,7 +1358,7 @@
     {
       "handle": "TheFP",
       "name": "The Free Press",
-      "followers_count": 1334275,
+      "followers_count": 1334278,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheFP)"
     },
@@ -1372,7 +1372,7 @@
     {
       "handle": "Subscriptions",
       "name": "The X Subscription",
-      "followers_count": 1297159,
+      "followers_count": 1297160,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Subscriptions)"
     },
@@ -1407,7 +1407,7 @@
     {
       "handle": "MerriamWebster",
       "name": "Merriam-Webster",
-      "followers_count": 1207738,
+      "followers_count": 1207737,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MerriamWebster)"
     },
@@ -1421,7 +1421,7 @@
     {
       "handle": "googleanalytics",
       "name": "Google Analytics",
-      "followers_count": 1169774,
+      "followers_count": 1169775,
       "verified": false,
       "subtitle": "Live Broadcast • X (@googleanalytics)"
     },
@@ -1449,7 +1449,7 @@
     {
       "handle": "PayPal",
       "name": "PayPal",
-      "followers_count": 1115052,
+      "followers_count": 1115045,
       "verified": false,
       "subtitle": "Live Broadcast • X (@PayPal)"
     },
@@ -1463,21 +1463,21 @@
     {
       "handle": "prageru",
       "name": "PragerU",
-      "followers_count": 1052247,
+      "followers_count": 1052241,
       "verified": false,
       "subtitle": "Live Broadcast • X (@prageru)"
     },
     {
       "handle": "GoogleWorkspace",
       "name": "Google Workspace",
-      "followers_count": 1051466,
+      "followers_count": 1051467,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GoogleWorkspace)"
     },
     {
       "handle": "duolingo",
       "name": "Duolingo",
-      "followers_count": 1049787,
+      "followers_count": 1049788,
       "verified": false,
       "subtitle": "Live Broadcast • X (@duolingo)"
     },
@@ -1505,14 +1505,14 @@
     {
       "handle": "RyanHoliday",
       "name": "Ryan Holiday",
-      "followers_count": 1040047,
+      "followers_count": 1040030,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RyanHoliday)"
     },
     {
       "handle": "SimuLiu",
       "name": "Simu Liu",
-      "followers_count": 997673,
+      "followers_count": 997674,
       "verified": false,
       "subtitle": "Live Broadcast • X (@SimuLiu)"
     },
@@ -1568,21 +1568,21 @@
     {
       "handle": "waitbutwhy",
       "name": "Tim Urban",
-      "followers_count": 901800,
+      "followers_count": 901802,
       "verified": false,
       "subtitle": "Live Broadcast • X (@waitbutwhy)"
     },
     {
       "handle": "cenkuygur",
       "name": "Cenk Uygur",
-      "followers_count": 901134,
+      "followers_count": 901135,
       "verified": false,
       "subtitle": "Live Broadcast • X (@cenkuygur)"
     },
     {
       "handle": "AIatMeta",
       "name": "AI at Meta",
-      "followers_count": 887072,
+      "followers_count": 887074,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AIatMeta)"
     },
@@ -1603,14 +1603,14 @@
     {
       "handle": "sapinker",
       "name": "Steven Pinker",
-      "followers_count": 860299,
+      "followers_count": 860298,
       "verified": false,
       "subtitle": "Live Broadcast • X (@sapinker)"
     },
     {
       "handle": "alexandr_wang",
       "name": "Alexandr Wang",
-      "followers_count": 855148,
+      "followers_count": 855139,
       "verified": false,
       "subtitle": "Live Broadcast • X (@alexandr_wang)"
     },
@@ -1645,14 +1645,14 @@
     {
       "handle": "XMoney",
       "name": "X Money",
-      "followers_count": 835358,
+      "followers_count": 835375,
       "verified": false,
       "subtitle": "Live Broadcast • X (@XMoney)"
     },
     {
       "handle": "archi_tradition",
       "name": "Architecture & Tradition",
-      "followers_count": 828009,
+      "followers_count": 828008,
       "verified": false,
       "subtitle": "Live Broadcast • X (@archi_tradition)"
     },
@@ -1687,7 +1687,7 @@
     {
       "handle": "fordnation",
       "name": "Doug Ford",
-      "followers_count": 774718,
+      "followers_count": 774714,
       "verified": false,
       "subtitle": "Live Broadcast • X (@fordnation)"
     },
@@ -1708,14 +1708,14 @@
     {
       "handle": "googlecalendar",
       "name": "Google Calendar",
-      "followers_count": 738770,
+      "followers_count": 738771,
       "verified": false,
       "subtitle": "Live Broadcast • X (@googlecalendar)"
     },
     {
       "handle": "RobertGreene",
       "name": "Robert Greene",
-      "followers_count": 736784,
+      "followers_count": 736774,
       "verified": false,
       "subtitle": "Live Broadcast • X (@RobertGreene)"
     },
@@ -1764,7 +1764,7 @@
     {
       "handle": "naftalibennett",
       "name": "Naftali Bennett נפתלי בנט",
-      "followers_count": 687245,
+      "followers_count": 687247,
       "verified": false,
       "subtitle": "Live Broadcast • X (@naftalibennett)"
     },
@@ -1799,7 +1799,7 @@
     {
       "handle": "AirCanada",
       "name": "Air Canada",
-      "followers_count": 665653,
+      "followers_count": 665652,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AirCanada)"
     },
@@ -1820,14 +1820,14 @@
     {
       "handle": "UNPeacekeeping",
       "name": "UN Peacekeeping",
-      "followers_count": 643677,
+      "followers_count": 643679,
       "verified": false,
       "subtitle": "Live Broadcast • X (@UNPeacekeeping)"
     },
     {
       "handle": "GeminiApp",
       "name": "Google Gemini",
-      "followers_count": 627474,
+      "followers_count": 627479,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GeminiApp)"
     },
@@ -1862,28 +1862,28 @@
     {
       "handle": "OliLondonTV",
       "name": "Oli London",
-      "followers_count": 601213,
+      "followers_count": 601214,
       "verified": false,
       "subtitle": "Live Broadcast • X (@OliLondonTV)"
     },
     {
       "handle": "PathOfMen_",
       "name": "Path of Men",
-      "followers_count": 598623,
+      "followers_count": 598612,
       "verified": false,
       "subtitle": "Live Broadcast • X (@PathOfMen_)"
     },
     {
       "handle": "TechEmails",
       "name": "Internal Tech Emails",
-      "followers_count": 597080,
+      "followers_count": 597079,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TechEmails)"
     },
     {
       "handle": "Wikipedia",
       "name": "Wikipedia",
-      "followers_count": 578921,
+      "followers_count": 578922,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Wikipedia)"
     },
@@ -1939,7 +1939,7 @@
     {
       "handle": "realMaalouf",
       "name": "Dr. Maalouf ‏",
-      "followers_count": 524714,
+      "followers_count": 524715,
       "verified": false,
       "subtitle": "Live Broadcast • X (@realMaalouf)"
     },
@@ -1967,28 +1967,28 @@
     {
       "handle": "tszzl",
       "name": "roon",
-      "followers_count": 511369,
+      "followers_count": 511372,
       "verified": false,
       "subtitle": "Live Broadcast • X (@tszzl)"
     },
     {
       "handle": "againstgrmrs",
       "name": "Gays Against Groomers",
-      "followers_count": 509987,
+      "followers_count": 509986,
       "verified": false,
       "subtitle": "Live Broadcast • X (@againstgrmrs)"
     },
     {
       "handle": "internetarchive",
       "name": "Internet Archive",
-      "followers_count": 508724,
+      "followers_count": 508723,
       "verified": false,
       "subtitle": "Live Broadcast • X (@internetarchive)"
     },
     {
       "handle": "ZoltiumHQ",
       "name": "Zoltium",
-      "followers_count": 508381,
+      "followers_count": 508382,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ZoltiumHQ)"
     },
@@ -2009,7 +2009,7 @@
     {
       "handle": "HumanityChad",
       "name": "Restoring Your Faith in Humanity",
-      "followers_count": 498279,
+      "followers_count": 498280,
       "verified": false,
       "subtitle": "Live Broadcast • X (@HumanityChad)"
     },
@@ -2044,7 +2044,7 @@
     {
       "handle": "JustineBateman",
       "name": "Justine Bateman",
-      "followers_count": 479179,
+      "followers_count": 479178,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JustineBateman)"
     },
@@ -2072,7 +2072,7 @@
     {
       "handle": "tyleraloevera",
       "name": "Tyler Oliveira",
-      "followers_count": 468758,
+      "followers_count": 468749,
       "verified": false,
       "subtitle": "Live Broadcast • X (@tyleraloevera)"
     },
@@ -2086,7 +2086,7 @@
     {
       "handle": "calvinrobinson",
       "name": "Fr Calvin Robinson ©️®️",
-      "followers_count": 463988,
+      "followers_count": 463987,
       "verified": false,
       "subtitle": "Live Broadcast • X (@calvinrobinson)"
     },
@@ -2156,7 +2156,7 @@
     {
       "handle": "Prathkum",
       "name": "Pratham",
-      "followers_count": 448500,
+      "followers_count": 448502,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Prathkum)"
     },
@@ -2198,7 +2198,7 @@
     {
       "handle": "ABDanielleSmith",
       "name": "Danielle Smith",
-      "followers_count": 435658,
+      "followers_count": 435660,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ABDanielleSmith)"
     },
@@ -2240,7 +2240,7 @@
     {
       "handle": "yacineMTB",
       "name": "kache",
-      "followers_count": 412235,
+      "followers_count": 412237,
       "verified": false,
       "subtitle": "Live Broadcast • X (@yacineMTB)"
     },
@@ -2254,7 +2254,7 @@
     {
       "handle": "OfficialLoganK",
       "name": "Logan Kilpatrick",
-      "followers_count": 402540,
+      "followers_count": 402548,
       "verified": false,
       "subtitle": "Live Broadcast • X (@OfficialLoganK)"
     },
@@ -2296,7 +2296,7 @@
     {
       "handle": "ProtonPrivacy",
       "name": "Proton",
-      "followers_count": 378628,
+      "followers_count": 378629,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ProtonPrivacy)"
     },
@@ -2317,7 +2317,7 @@
     {
       "handle": "heyeaslo",
       "name": "Easlo",
-      "followers_count": 374972,
+      "followers_count": 374973,
       "verified": false,
       "subtitle": "Live Broadcast • X (@heyeaslo)"
     },
@@ -2338,7 +2338,7 @@
     {
       "handle": "junonewscom",
       "name": "Juno News",
-      "followers_count": 366483,
+      "followers_count": 366480,
       "verified": false,
       "subtitle": "Live Broadcast • X (@junonewscom)"
     },
@@ -2359,14 +2359,14 @@
     {
       "handle": "WarintheFuture",
       "name": "Mick Ryan, AM",
-      "followers_count": 364416,
+      "followers_count": 364415,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WarintheFuture)"
     },
     {
       "handle": "AlexAndBooks_",
       "name": "Alex & Books 📚",
-      "followers_count": 363887,
+      "followers_count": 363888,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AlexAndBooks_)"
     },
@@ -2401,7 +2401,7 @@
     {
       "handle": "AliAbdaal",
       "name": "Ali Abdaal",
-      "followers_count": 357156,
+      "followers_count": 357157,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AliAbdaal)"
     },
@@ -2429,14 +2429,14 @@
     {
       "handle": "cremieuxrecueil",
       "name": "Crémieux",
-      "followers_count": 346104,
+      "followers_count": 346105,
       "verified": false,
       "subtitle": "Live Broadcast • X (@cremieuxrecueil)"
     },
     {
       "handle": "CISAgov",
       "name": "Cybersecurity and Infrastructure Security Agency",
-      "followers_count": 345275,
+      "followers_count": 345276,
       "verified": false,
       "subtitle": "Live Broadcast • X (@CISAgov)"
     },
@@ -2506,7 +2506,7 @@
     {
       "handle": "Jeopardy",
       "name": "Jeopardy!",
-      "followers_count": 323476,
+      "followers_count": 323477,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Jeopardy)"
     },
@@ -2527,7 +2527,7 @@
     {
       "handle": "TheRealKeean",
       "name": "Keean Bexte",
-      "followers_count": 319856,
+      "followers_count": 319857,
       "verified": false,
       "subtitle": "Live Broadcast • X (@TheRealKeean)"
     },
@@ -2569,14 +2569,14 @@
     {
       "handle": "PeterZeihan",
       "name": "Peter Zeihan",
-      "followers_count": 304477,
+      "followers_count": 304471,
       "verified": false,
       "subtitle": "Live Broadcast • X (@PeterZeihan)"
     },
     {
       "handle": "triggerpod",
       "name": "TRIGGERnometry",
-      "followers_count": 300838,
+      "followers_count": 300839,
       "verified": false,
       "subtitle": "Live Broadcast • X (@triggerpod)"
     },
@@ -2611,7 +2611,7 @@
     {
       "handle": "ChloeCole",
       "name": "Chloe Cole ⭐️",
-      "followers_count": 299260,
+      "followers_count": 299263,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ChloeCole)"
     },
@@ -2625,7 +2625,7 @@
     {
       "handle": "litteralyme0",
       "name": "Miilato",
-      "followers_count": 294605,
+      "followers_count": 294607,
       "verified": false,
       "subtitle": "Live Broadcast • X (@litteralyme0)"
     },
@@ -2667,7 +2667,7 @@
     {
       "handle": "Gemini_Notebook",
       "name": "Gemini Notebook",
-      "followers_count": 283811,
+      "followers_count": 283812,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Gemini_Notebook)"
     },
@@ -2695,7 +2695,7 @@
     {
       "handle": "jamesfishback",
       "name": "James Fishback",
-      "followers_count": 279316,
+      "followers_count": 279309,
       "verified": false,
       "subtitle": "Live Broadcast • X (@jamesfishback)"
     },
@@ -2716,7 +2716,7 @@
     {
       "handle": "mediterraneanAE",
       "name": "Mediterranean Aesthetics",
-      "followers_count": 272539,
+      "followers_count": 272545,
       "verified": false,
       "subtitle": "Live Broadcast • X (@mediterraneanAE)"
     },
@@ -2751,7 +2751,7 @@
     {
       "handle": "WBrettWilson",
       "name": "** W. Brett Wilson **",
-      "followers_count": 263566,
+      "followers_count": 263568,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WBrettWilson)"
     },
@@ -2807,14 +2807,14 @@
     {
       "handle": "bankofcanada",
       "name": "Bank of Canada",
-      "followers_count": 254878,
+      "followers_count": 254877,
       "verified": false,
       "subtitle": "Live Broadcast • X (@bankofcanada)"
     },
     {
       "handle": "AllisonPearson",
       "name": "Allison Pearson",
-      "followers_count": 251452,
+      "followers_count": 251449,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AllisonPearson)"
     },
@@ -2863,7 +2863,7 @@
     {
       "handle": "onlystresstoday",
       "name": "stressed",
-      "followers_count": 233681,
+      "followers_count": 233683,
       "verified": false,
       "subtitle": "Live Broadcast • X (@onlystresstoday)"
     },
@@ -2884,7 +2884,7 @@
     {
       "handle": "ParksCanada",
       "name": "Parks Canada",
-      "followers_count": 229566,
+      "followers_count": 229565,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ParksCanada)"
     },
@@ -2926,7 +2926,7 @@
     {
       "handle": "antigravity",
       "name": "Google Antigravity",
-      "followers_count": 224594,
+      "followers_count": 224602,
       "verified": false,
       "subtitle": "Live Broadcast • X (@antigravity)"
     },
@@ -2940,21 +2940,21 @@
     {
       "handle": "obsdmd",
       "name": "Obsidian",
-      "followers_count": 222924,
+      "followers_count": 222925,
       "verified": false,
       "subtitle": "Live Broadcast • X (@obsdmd)"
     },
     {
       "handle": "GoogleAIStudio",
       "name": "Google AI Studio",
-      "followers_count": 222284,
+      "followers_count": 222287,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GoogleAIStudio)"
     },
     {
       "handle": "Ducnghia16",
       "name": "🌸🎵 Beautiful Melody 🎶💖",
-      "followers_count": 221404,
+      "followers_count": 221405,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Ducnghia16)"
     },
@@ -2968,7 +2968,7 @@
     {
       "handle": "philosophy_life",
       "name": "philosophy for life",
-      "followers_count": 218920,
+      "followers_count": 218922,
       "verified": false,
       "subtitle": "Live Broadcast • X (@philosophy_life)"
     },
@@ -3059,14 +3059,14 @@
     {
       "handle": "AndrewLawton",
       "name": "Andrew Lawton",
-      "followers_count": 204956,
+      "followers_count": 204960,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AndrewLawton)"
     },
     {
       "handle": "XVanFleet",
       "name": "Xi Van Fleet",
-      "followers_count": 204821,
+      "followers_count": 204822,
       "verified": false,
       "subtitle": "Live Broadcast • X (@XVanFleet)"
     },
@@ -3220,14 +3220,14 @@
     {
       "handle": "wrathofgnon",
       "name": "Wrath Of Gnon",
-      "followers_count": 177998,
+      "followers_count": 177999,
       "verified": false,
       "subtitle": "Live Broadcast • X (@wrathofgnon)"
     },
     {
       "handle": "LeslynLewis",
       "name": "Dr. Leslyn Lewis",
-      "followers_count": 177789,
+      "followers_count": 177790,
       "verified": false,
       "subtitle": "Live Broadcast • X (@LeslynLewis)"
     },
@@ -3262,7 +3262,7 @@
     {
       "handle": "Bell_LetsTalk",
       "name": "Bell Let's Talk",
-      "followers_count": 169503,
+      "followers_count": 169502,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Bell_LetsTalk)"
     },
@@ -3290,7 +3290,7 @@
     {
       "handle": "WTSmith17",
       "name": "Warren Smith",
-      "followers_count": 163670,
+      "followers_count": 163672,
       "verified": false,
       "subtitle": "Live Broadcast • X (@WTSmith17)"
     },
@@ -3374,7 +3374,7 @@
     {
       "handle": "_____yohaku",
       "name": "余白の詩学",
-      "followers_count": 152901,
+      "followers_count": 152902,
       "verified": false,
       "subtitle": "Live Broadcast • X (@_____yohaku)"
     },
@@ -3430,7 +3430,7 @@
     {
       "handle": "theChrisDo",
       "name": "Chris Do",
-      "followers_count": 148293,
+      "followers_count": 148294,
       "verified": false,
       "subtitle": "Live Broadcast • X (@theChrisDo)"
     },
@@ -3549,7 +3549,7 @@
     {
       "handle": "AnitaAnandMP",
       "name": "Anita Anand",
-      "followers_count": 136047,
+      "followers_count": 136048,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AnitaAnandMP)"
     },
@@ -3955,7 +3955,7 @@
     {
       "handle": "Jayyanginspires",
       "name": "Jay Yang",
-      "followers_count": 102572,
+      "followers_count": 102574,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Jayyanginspires)"
     },
@@ -4025,7 +4025,7 @@
     {
       "handle": "feeonline",
       "name": "Foundation for Economic Education",
-      "followers_count": 100064,
+      "followers_count": 100065,
       "verified": false,
       "subtitle": "Live Broadcast • X (@feeonline)"
     },
@@ -4039,21 +4039,21 @@
     {
       "handle": "ColinDMello",
       "name": "Colin D'Mello | Global News",
-      "followers_count": 99556,
+      "followers_count": 99554,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ColinDMello)"
     },
     {
       "handle": "SirEvanAmato",
       "name": "Evan Amato",
-      "followers_count": 98718,
+      "followers_count": 98719,
       "verified": false,
       "subtitle": "Live Broadcast • X (@SirEvanAmato)"
     },
     {
       "handle": "petersonacademy",
       "name": "Peterson Academy",
-      "followers_count": 98027,
+      "followers_count": 98028,
       "verified": false,
       "subtitle": "Live Broadcast • X (@petersonacademy)"
     },
@@ -4081,7 +4081,7 @@
     {
       "handle": "CartNarcs",
       "name": "CartNarcs",
-      "followers_count": 94842,
+      "followers_count": 94843,
       "verified": false,
       "subtitle": "Live Broadcast • X (@CartNarcs)"
     },
@@ -4130,7 +4130,7 @@
     {
       "handle": "_mohansolo",
       "name": "Varun Mohan",
-      "followers_count": 93272,
+      "followers_count": 93348,
       "verified": false,
       "subtitle": "Live Broadcast • X (@_mohansolo)"
     },
@@ -4228,7 +4228,7 @@
     {
       "handle": "ivanhzhao",
       "name": "Ivan Zhao",
-      "followers_count": 88044,
+      "followers_count": 88045,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ivanhzhao)"
     },
@@ -4403,7 +4403,7 @@
     {
       "handle": "_chenglou",
       "name": "Cheng Lou",
-      "followers_count": 80223,
+      "followers_count": 80222,
       "verified": false,
       "subtitle": "Live Broadcast • X (@_chenglou)"
     },
@@ -4508,7 +4508,7 @@
     {
       "handle": "lraitt",
       "name": "Hon. Lisa MacCormack Raitt P.C.",
-      "followers_count": 73413,
+      "followers_count": 73412,
       "verified": false,
       "subtitle": "Live Broadcast • X (@lraitt)"
     },
@@ -4571,14 +4571,14 @@
     {
       "handle": "YIMBYLAND",
       "name": "YIMBYLAND",
-      "followers_count": 71864,
+      "followers_count": 71865,
       "verified": false,
       "subtitle": "Live Broadcast • X (@YIMBYLAND)"
     },
     {
       "handle": "DavidOndrej1",
       "name": "David Ondrej",
-      "followers_count": 71455,
+      "followers_count": 71454,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DavidOndrej1)"
     },
@@ -4669,7 +4669,7 @@
     {
       "handle": "KirkLubimov",
       "name": "Kirk Lubimov",
-      "followers_count": 68008,
+      "followers_count": 68011,
       "verified": false,
       "subtitle": "Live Broadcast • X (@KirkLubimov)"
     },
@@ -4718,7 +4718,7 @@
     {
       "handle": "NotaliaMateo",
       "name": "NotalAI",
-      "followers_count": 65978,
+      "followers_count": 65979,
       "verified": false,
       "subtitle": "Live Broadcast • X (@NotaliaMateo)"
     },
@@ -4809,14 +4809,14 @@
     {
       "handle": "yonkojohn",
       "name": "John Smith",
-      "followers_count": 63042,
+      "followers_count": 63043,
       "verified": false,
       "subtitle": "Live Broadcast • X (@yonkojohn)"
     },
     {
       "handle": "rockerskating",
       "name": "Jackie Wong",
-      "followers_count": 62753,
+      "followers_count": 62754,
       "verified": false,
       "subtitle": "Live Broadcast • X (@rockerskating)"
     },
@@ -4844,7 +4844,7 @@
     {
       "handle": "craigweiss",
       "name": "Craig Weiss",
-      "followers_count": 62210,
+      "followers_count": 62211,
       "verified": false,
       "subtitle": "Live Broadcast • X (@craigweiss)"
     },
@@ -5124,7 +5124,7 @@
     {
       "handle": "McfarlaneGlenda",
       "name": "Glenda M 🍎",
-      "followers_count": 52385,
+      "followers_count": 52386,
       "verified": false,
       "subtitle": "Live Broadcast • X (@McfarlaneGlenda)"
     },
@@ -5243,14 +5243,14 @@
     {
       "handle": "AuthorGoodwin",
       "name": "Charlotte Goodwin 🇬🇧📚🪖",
-      "followers_count": 48678,
+      "followers_count": 48679,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AuthorGoodwin)"
     },
     {
       "handle": "lockheimer",
       "name": "Hiroshi Lockheimer",
-      "followers_count": 48422,
+      "followers_count": 48425,
       "verified": false,
       "subtitle": "Live Broadcast • X (@lockheimer)"
     },
@@ -5334,7 +5334,7 @@
     {
       "handle": "Rob_ThaBuilder",
       "name": "The Heretical Liberal 🇨🇦",
-      "followers_count": 45542,
+      "followers_count": 45543,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Rob_ThaBuilder)"
     },
@@ -5516,7 +5516,7 @@
     {
       "handle": "JoshDaws",
       "name": "Josh Daws",
-      "followers_count": 42236,
+      "followers_count": 42235,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JoshDaws)"
     },
@@ -5593,7 +5593,7 @@
     {
       "handle": "ChanLPfa",
       "name": "Chanel Pfahl",
-      "followers_count": 40163,
+      "followers_count": 40164,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ChanLPfa)"
     },
@@ -5677,7 +5677,7 @@
     {
       "handle": "JimChuong",
       "name": "Lazy Canadian Entrepreneur",
-      "followers_count": 37750,
+      "followers_count": 37749,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JimChuong)"
     },
@@ -5831,7 +5831,7 @@
     {
       "handle": "OntarioGreens",
       "name": "Green Party of Ontario",
-      "followers_count": 34630,
+      "followers_count": 34629,
       "verified": false,
       "subtitle": "Live Broadcast • X (@OntarioGreens)"
     },
@@ -6153,7 +6153,7 @@
     {
       "handle": "dtrinh",
       "name": "Danny Trinh",
-      "followers_count": 28504,
+      "followers_count": 28505,
       "verified": false,
       "subtitle": "Live Broadcast • X (@dtrinh)"
     },
@@ -6258,7 +6258,7 @@
     {
       "handle": "ThePHPF",
       "name": "The PHP Foundation",
-      "followers_count": 26968,
+      "followers_count": 26966,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ThePHPF)"
     },
@@ -6391,7 +6391,7 @@
     {
       "handle": "djseo",
       "name": "DJ Seo",
-      "followers_count": 24728,
+      "followers_count": 24729,
       "verified": false,
       "subtitle": "Live Broadcast • X (@djseo)"
     },
@@ -6433,7 +6433,7 @@
     {
       "handle": "MichaelKovrig",
       "name": "Michael Kovrig",
-      "followers_count": 24248,
+      "followers_count": 24249,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MichaelKovrig)"
     },
@@ -6531,7 +6531,7 @@
     {
       "handle": "DanielTyrie",
       "name": "Daniel Tyrie",
-      "followers_count": 22633,
+      "followers_count": 22632,
       "verified": false,
       "subtitle": "Live Broadcast • X (@DanielTyrie)"
     },
@@ -6711,18 +6711,18 @@
       "subtitle": "Live Broadcast • X (@TIAPToronto)"
     },
     {
-      "handle": "rodydavis",
-      "name": "Rody Davis",
-      "followers_count": 20441,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@rodydavis)"
-    },
-    {
       "handle": "Army_Comd_Armee",
       "name": "LGen Michael Wright, CCA/CAC",
       "followers_count": 20441,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Army_Comd_Armee)"
+    },
+    {
+      "handle": "rodydavis",
+      "name": "Rody Davis",
+      "followers_count": 20440,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@rodydavis)"
     },
     {
       "handle": "PeterBoettke",
@@ -6846,7 +6846,7 @@
     {
       "handle": "PAHoyeck",
       "name": "Phil Hoyeck",
-      "followers_count": 19065,
+      "followers_count": 19066,
       "verified": false,
       "subtitle": "Live Broadcast • X (@PAHoyeck)"
     },
@@ -6888,7 +6888,7 @@
     {
       "handle": "JinglaiHe",
       "name": "Jinglai He 🇨🇦",
-      "followers_count": 18782,
+      "followers_count": 18781,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JinglaiHe)"
     },
@@ -7077,7 +7077,7 @@
     {
       "handle": "MInthenow70635",
       "name": "A True Liberal 🇬🇧 🏳️‍🌈",
-      "followers_count": 16466,
+      "followers_count": 16463,
       "verified": false,
       "subtitle": "Live Broadcast • X (@MInthenow70635)"
     },
@@ -7105,7 +7105,7 @@
     {
       "handle": "canada_spends",
       "name": "Canada Spends",
-      "followers_count": 16141,
+      "followers_count": 16140,
       "verified": false,
       "subtitle": "Live Broadcast • X (@canada_spends)"
     },
@@ -7315,7 +7315,7 @@
     {
       "handle": "ivanleomk",
       "name": "Ivan Leo",
-      "followers_count": 13351,
+      "followers_count": 13352,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ivanleomk)"
     },
@@ -7329,7 +7329,7 @@
     {
       "handle": "homonatian",
       "name": "Nathan Hale",
-      "followers_count": 13225,
+      "followers_count": 13224,
       "verified": false,
       "subtitle": "Live Broadcast • X (@homonatian)"
     },
@@ -8225,7 +8225,7 @@
     {
       "handle": "JeffSempleGN",
       "name": "Jeff Semple",
-      "followers_count": 7282,
+      "followers_count": 7283,
       "verified": false,
       "subtitle": "Live Broadcast • X (@JeffSempleGN)"
     },
@@ -8288,7 +8288,7 @@
     {
       "handle": "NGLHRC",
       "name": "#Repeal162 because #LoveIsHuman",
-      "followers_count": 7069,
+      "followers_count": 7068,
       "verified": false,
       "subtitle": "Live Broadcast • X (@NGLHRC)"
     },
@@ -8498,7 +8498,7 @@
     {
       "handle": "colewhogan",
       "name": "Cole Hogan",
-      "followers_count": 5939,
+      "followers_count": 5940,
       "verified": false,
       "subtitle": "Live Broadcast • X (@colewhogan)"
     },
@@ -8540,7 +8540,7 @@
     {
       "handle": "ShawnDevDedalus",
       "name": "Shawn Dedalus .·. 🇺🇲 ⚓",
-      "followers_count": 5813,
+      "followers_count": 5814,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ShawnDevDedalus)"
     },
@@ -8706,6 +8706,13 @@
       "subtitle": "Live Broadcast • X (@realMikeChong)"
     },
     {
+      "handle": "teddywang86",
+      "name": "teddywang86",
+      "followers_count": 4998,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@teddywang86)"
+    },
+    {
       "handle": "CiaranDanielz",
       "name": "Ciarán 🇺🇸🦅🇮🇪☘️",
       "followers_count": 4996,
@@ -8718,13 +8725,6 @@
       "followers_count": 4993,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Patrick_ORourke)"
-    },
-    {
-      "handle": "teddywang86",
-      "name": "teddywang86",
-      "followers_count": 4990,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@teddywang86)"
     },
     {
       "handle": "EnayatAzad",
@@ -8897,7 +8897,7 @@
     {
       "handle": "dyaelgonzales",
       "name": "Ja #Equality4All 🏳️‍🌈",
-      "followers_count": 4558,
+      "followers_count": 4557,
       "verified": false,
       "subtitle": "Live Broadcast • X (@dyaelgonzales)"
     },
@@ -10799,18 +10799,18 @@
       "subtitle": "Live Broadcast • X (@Jdxyz)"
     },
     {
-      "handle": "CJam2013",
-      "name": "Canadian Jamboree",
-      "followers_count": 601,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@CJam2013)"
-    },
-    {
       "handle": "daniel_vargo",
       "name": "Daniel Vargo",
       "followers_count": 600,
       "verified": false,
       "subtitle": "Live Broadcast • X (@daniel_vargo)"
+    },
+    {
+      "handle": "CJam2013",
+      "name": "Canadian Jamboree",
+      "followers_count": 600,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@CJam2013)"
     },
     {
       "handle": "re_user",
@@ -11989,18 +11989,18 @@
       "subtitle": "Live Broadcast • X (@IlieneCorsen)"
     },
     {
-      "handle": "AndrewBienhaus",
-      "name": "Andrew Bienhaus",
-      "followers_count": 72,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@AndrewBienhaus)"
-    },
-    {
       "handle": "Beggasveins",
       "name": "Bergþóra Sveins",
       "followers_count": 71,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Beggasveins)"
+    },
+    {
+      "handle": "AndrewBienhaus",
+      "name": "Andrew Bienhaus",
+      "followers_count": 71,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@AndrewBienhaus)"
     },
     {
       "handle": "CPChampion1",
