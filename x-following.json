@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-19T17:57:21.901Z",
-  "total_following_scanned": 1805,
+  "updated_at": "2026-11-21T19:43:31.954Z",
+  "total_following_scanned": 1807,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,20 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "rezoundous",
+      "name": "Tyler",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@rezoundous)"
+    },
+    {
+      "handle": "DavidOndrej1",
+      "name": "David Ondrej",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@DavidOndrej1)"
     },
     {
       "handle": "teddywang86",
@@ -2308,11 +2322,11 @@
       "subtitle": "Live Broadcast • X (@DeborahLyonsSE)"
     },
     {
-      "handle": "SohailSNAhmed",
+      "handle": "ahmedsohail",
       "name": "Sohail Ahmed",
       "followers_count": 0,
       "verified": true,
-      "subtitle": "Live Broadcast • X (@SohailSNAhmed)"
+      "subtitle": "Live Broadcast • X (@ahmedsohail)"
     },
     {
       "handle": "zhangster",
@@ -2509,13 +2523,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@yimingdothan)"
-    },
-    {
-      "handle": "cbcwatcher",
-      "name": "cbcwatcher",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@cbcwatcher)"
     },
     {
       "handle": "sscjusa",
@@ -2715,7 +2722,7 @@
     },
     {
       "handle": "oldbooksguy",
-      "name": "Jash Dholani",
+      "name": "Creativity with Jash",
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@oldbooksguy)"
@@ -7605,6 +7612,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@traviskann)"
+    },
+    {
+      "handle": "cbcwatcher",
+      "name": "_cbcwatcher_",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@cbcwatcher)"
     },
     {
       "handle": "ianhanomansing",
