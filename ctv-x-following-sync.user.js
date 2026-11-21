@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         CTV News TV — Sync @alexkillby X Following List
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.2.3
-// @description  Syncs @alexkillby's followed X accounts and long-form videos (5m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
+// @version      1.2.4
+// @description  Syncs @alexkillby's followed X accounts and long-form videos (15m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
 // @author       Alex Killby
 // @match        https://x.com/*
 // @match        https://twitter.com/*
@@ -28,7 +28,7 @@
   const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000; // Once every 24 hours
   const AUTO_CHECK_MS = 30 * 60 * 1000;          // Re-check every 30 min on long-lived tabs
   const SYNC_LOCK_MS = 3 * 60 * 1000;
-  const MIN_LONG_FORM_VIDEO_MS = 5 * 60 * 1000;  // 5 minutes threshold
+  const MIN_LONG_FORM_VIDEO_MS = 15 * 60 * 1000; // 15 minutes threshold
   const VIDEO_WINDOW_DAYS = 30;
   const VIDEO_WINDOW_MS = VIDEO_WINDOW_DAYS * 24 * 60 * 60 * 1000;
   const MSG_SOURCE = 'ctv-x-following-sync';
@@ -1197,7 +1197,7 @@
     if (manual) {
       showBanner(
         videosOnly
-          ? `Scanning @${TARGET_USERNAME} followed accounts for 5m+ videos (last 30 days)...`
+          ? `Scanning @${TARGET_USERNAME} followed accounts for 15m+ videos (last 30 days)...`
           : `Scanning @${TARGET_USERNAME} following list & long-form videos...`,
         { durationMs: 0 }
       );
@@ -1250,7 +1250,7 @@
       }
 
       if (manual) {
-        showBanner(`Scanning ${accountCount} followed accounts for 5m+ videos (last 30 days)...`, { durationMs: 0 });
+        showBanner(`Scanning ${accountCount} followed accounts for 15m+ videos (last 30 days)...`, { durationMs: 0 });
       }
 
       let videoCount = 0;
@@ -1270,7 +1270,7 @@
 
       showBanner(
         videosOnly
-          ? `Synced ${videoCount} long-form X videos (5m+, 30d) to CTV News TV!`
+          ? `Synced ${videoCount} long-form X videos (15m+, 30d) to CTV News TV!`
           : `Synced ${accountCount} accounts & ${videoCount} long-form X videos to CTV News TV!`,
         { durationMs: manual ? 8000 : 4500 }
       );
@@ -1421,7 +1421,7 @@
   if (typeof GM_registerMenuCommand === 'function') {
     GM_registerMenuCommand('🔑 Set GitHub Token (ctv-x-feeds)', openTokenModal);
     GM_registerMenuCommand(`🔄 Sync @${TARGET_USERNAME} Following & Videos Now`, () => runFollowingSync({ manual: true }));
-    GM_registerMenuCommand('🎬 Sync X Long-Form Videos (5m+, 30d) Now', () =>
+    GM_registerMenuCommand('🎬 Sync X Long-Form Videos (15m+, 30d) Now', () =>
       runFollowingSync({ manual: true, videosOnly: true })
     );
     GM_registerMenuCommand('📊 View Last Sync Status', showLastSyncStatus);

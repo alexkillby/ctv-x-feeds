@@ -4,10 +4,10 @@ Dynamic `@alexkillby` X following & long-form video feeds for **CTV News Android
 
 ## How It Works
 
-1. **Browser Userscript (`ctv-x-following-sync.user.js`, v1.2.0)**:
+1. **Browser Userscript (`ctv-x-following-sync.user.js`, v1.2.4)**:
    - Runs in Tampermonkey or Violentmonkey whenever you browse `x.com` — **at most once every 24 hours**.
    - Silently reads `@alexkillby`'s public Following list via X's own web client (excluding private/protected or zero-post accounts) and commits `x-following.json` to this repository.
-   - Scans `@alexkillby`'s followed accounts for **long-form native videos (>= 5 minutes)** published within the **last 30 days** and commits them in **reverse chronological order** to `x-videos.json`.
+   - Scans `@alexkillby`'s followed accounts for **long-form native videos (>= 15 minutes)** published within the **last 30 days** and commits them in **reverse chronological order** to `x-videos.json`.
 2. **Standalone Live & On-Demand Playback on Nvidia Shield**:
    - **You do NOT need `x.com` or your computer open while watching TV.**
    - `ChannelRepository` fetches `x-following.json` to probe active live broadcasts into **Live Events & Specials (`E1`, `E2`, ...)**, and fetches `x-videos.json` (plus passively harvested / on-device probed long-form videos) to populate **X On Demand** under the **On Demand** menu section.
