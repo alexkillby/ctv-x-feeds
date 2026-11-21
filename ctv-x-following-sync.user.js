@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         CTV News TV — Sync @alexkillby X Following List
+// @name         CTV News TV — Sync @alexkillby X Following & On-Demand Videos
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.1.0
-// @description  Syncs @alexkillby's followed X accounts automatically once per day to GitHub so CTV News Android TV can independently probe them for live broadcasts.
+// @version      1.2.0
+// @description  Syncs @alexkillby's followed X accounts and long-form videos (5m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
 // @author       Alex Killby
 // @match        https://x.com/*
 // @match        https://twitter.com/*
@@ -23,9 +23,13 @@
   const GITHUB_OWNER = 'alexkillby';
   const GITHUB_REPO = 'ctv-x-feeds';
   const GITHUB_FILE_PATH = 'x-following.json';
+  const GITHUB_VIDEOS_FILE_PATH = 'x-videos.json';
   const SYNC_INTERVAL_MS = 24 * 60 * 60 * 1000; // Once every 24 hours
   const AUTO_CHECK_MS = 30 * 60 * 1000;          // Re-check every 30 min on long-lived tabs
   const SYNC_LOCK_MS = 3 * 60 * 1000;
+  const MIN_LONG_FORM_VIDEO_MS = 5 * 60 * 1000;  // 5 minutes threshold
+  const VIDEO_WINDOW_DAYS = 30;
+  const VIDEO_WINDOW_MS = VIDEO_WINDOW_DAYS * 24 * 60 * 60 * 1000;
   const MSG_SOURCE = 'ctv-x-following-sync';
 
   // X's public web client bearer token + 2026 x-web persisted followingQuery ID
@@ -43,7 +47,8 @@
     SYNC_LOCK_UNTIL: 'ctv_sync_lock_until',
     MIN_FOLLOWERS: 'ctv_min_followers',
     PINNED_HANDLES: 'ctv_pinned_handles',
-    CACHED_QUERY_ID: 'ctv_following_query_id'
+    CACHED_QUERY_ID: 'ctv_following_query_id',
+    CACHED_SEARCH_QUERY_ID: 'ctv_search_query_id'
   };
 
   function getGithubToken() {
@@ -673,12 +678,388 @@
       STORAGE_KEYS.LAST_SYNC_STATUS,
       `Synced ${sortedAccounts.length} accounts at ${new Date(now).toLocaleString()}`
     );
-    return sortedAccounts.length;
+    return { count: sortedAccounts.length, accounts: sortedAccounts };
+  }
+
+  // ============================================================================
+  // LONG-FORM VIDEO HARVESTER (>= 5 MIN, LAST 30 DAYS, REVERSE CHRONOLOGICAL)
+  // ============================================================================
+  function pickBestVideoStreamUrl(variants) {
+    if (!Array.isArray(variants)) return '';
+    let hlsUrl = '';
+    let bestMp4Url = '';
+    let bestMp4Bitrate = -1;
+    for (const v of variants) {
+      if (!v || typeof v.url !== 'string' || !v.url.startsWith('http')) continue;
+      const ct = String(v.content_type || v.type || '').toLowerCase();
+      if (ct.includes('mpegurl') || v.url.includes('.m3u8')) {
+        if (!hlsUrl) hlsUrl = v.url;
+      } else if (ct.includes('mp4') || v.url.includes('.mp4')) {
+        const br = Number(v.bitrate) || 0;
+        if (br >= bestMp4Bitrate) {
+          bestMp4Bitrate = br;
+          bestMp4Url = v.url;
+        }
+      }
+    }
+    return hlsUrl || bestMp4Url;
+  }
+
+  function cleanVideoTitle(rawText, authorName, handle) {
+    const cleanedFull = String(rawText || '')
+      .replace(/https?:\/\/t\.co\/[A-Za-z0-9]+/g, '')
+      .trim();
+    if (!cleanedFull) {
+      return `${authorName || '@' + handle} • Long-Form Video`;
+    }
+    const firstLine = cleanedFull
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .find((l) => l.length > 0) || cleanedFull;
+    const candidate = (firstLine.length >= 12 ? firstLine : cleanedFull).replace(/\s+/g, ' ').trim();
+    return candidate.length > 110 ? candidate.slice(0, 107).trimEnd() + '…' : candidate;
+  }
+
+  function extractLongFormVideosFromPayload(rootNode, followedSet, collectedVideos, cutoffMs) {
+    let bottomCursor = null;
+    let reachedEnd = false;
+    let oldestSeenMs = Infinity;
+
+    const recordCandidate = ({
+      tweetId,
+      handle,
+      authorName,
+      fullText,
+      publishedAtMs,
+      durationMs,
+      streamUrl,
+      thumbnailUrl
+    }) => {
+      if (!tweetId || !handle || !streamUrl) return;
+      const cleanHandle = String(handle).replace(/^@+/, '').trim();
+      if (!cleanHandle) return;
+      if (followedSet && followedSet.size > 0 && !followedSet.has(cleanHandle.toLowerCase())) return;
+      if (publishedAtMs > 0 && publishedAtMs < oldestSeenMs) {
+        oldestSeenMs = publishedAtMs;
+      }
+      if (!publishedAtMs || publishedAtMs < cutoffMs) return;
+      if (!durationMs || durationMs < MIN_LONG_FORM_VIDEO_MS) return;
+
+      const durationSeconds = Math.floor(durationMs / 1000);
+      if (!collectedVideos.has(tweetId)) {
+        collectedVideos.set(tweetId, {
+          tweet_id: String(tweetId),
+          handle: cleanHandle,
+          author_name: String(authorName || cleanHandle).trim(),
+          title: cleanVideoTitle(fullText, authorName, cleanHandle),
+          published_at_ms: publishedAtMs,
+          published_at: new Date(publishedAtMs).toISOString(),
+          duration_seconds: durationSeconds,
+          stream_url: streamUrl,
+          ...(thumbnailUrl ? { thumbnail_url: thumbnailUrl } : {})
+        });
+      }
+    };
+
+    // Handle REST v2 adaptive search globalObjects format if present
+    if (rootNode?.globalObjects?.tweets && rootNode?.globalObjects?.users) {
+      const users = rootNode.globalObjects.users;
+      for (const t of Object.values(rootNode.globalObjects.tweets)) {
+        if (!t || t.retweeted_status_id_str) continue;
+        const fullText = t.full_text || t.text || '';
+        if (fullText.startsWith('RT @')) continue;
+        const user = users[t.user_id_str];
+        const handle = user?.screen_name || '';
+        const authorName = user?.name || handle;
+        const publishedAtMs = t.created_at ? Date.parse(t.created_at) : 0;
+        const media = t.extended_entities?.media || t.entities?.media || [];
+        for (const m of media) {
+          if (!m?.video_info) continue;
+          const durationMs = Number(m.video_info.duration_millis) || 0;
+          const streamUrl = pickBestVideoStreamUrl(m.video_info.variants);
+          recordCandidate({
+            tweetId: t.id_str,
+            handle,
+            authorName,
+            fullText,
+            publishedAtMs,
+            durationMs,
+            streamUrl,
+            thumbnailUrl: m.media_url_https || ''
+          });
+          break;
+        }
+      }
+    }
+
+    function walk(node) {
+      if (!node || typeof node !== 'object') return;
+      if (Array.isArray(node)) {
+        for (const item of node) walk(item);
+        return;
+      }
+
+      const cType = node.cursor_type || node.cursorType;
+      if (cType === 'Bottom' && typeof node.value === 'string') {
+        bottomCursor = node.value;
+        if (node.value.startsWith('0|')) reachedEnd = true;
+      }
+
+      // Inspect 2026 x-web and legacy GraphQL Tweet objects
+      const isTweet =
+        node.__typename === 'Tweet' ||
+        (node.rest_id && (node.media_entities2 || node.details || node.legacy?.extended_entities));
+
+      if (isTweet && !node.retweeted_status_result && !node.legacy?.retweeted_status_result) {
+        const tweetId = String(node.rest_id || node.legacy?.id_str || '').trim();
+        const userRes = node.core?.user_results?.result;
+        const handle = userRes?.core?.screen_name || userRes?.legacy?.screen_name || '';
+        const authorName = userRes?.core?.name || userRes?.legacy?.name || handle;
+        const fullText =
+          node.note_tweet?.note_tweet_results?.result?.text ||
+          node.details?.full_text ||
+          node.legacy?.full_text ||
+          '';
+
+        if (!fullText.startsWith('RT @')) {
+          const publishedAtMs =
+            Number(node.details?.created_at_ms) ||
+            (node.legacy?.created_at ? Date.parse(node.legacy.created_at) : 0) ||
+            0;
+          const mediaArr =
+            node.media_entities2 ||
+            node.legacy?.extended_entities?.media ||
+            node.legacy?.entities?.media ||
+            [];
+
+          for (const m of mediaArr) {
+            if (!m?.video_info) continue;
+            // Ensure video belongs to this tweet's author, not an embedded third-party video
+            const expUrl = String(m.expanded_url || '');
+            const urlMatch = expUrl.match(/(?:x\.com|twitter\.com)\/([A-Za-z0-9_]{1,15})\/status\//i);
+            if (urlMatch && handle && urlMatch[1].toLowerCase() !== handle.toLowerCase()) continue;
+
+            const durationMs = Number(m.video_info.duration_millis) || 0;
+            const streamUrl = pickBestVideoStreamUrl(m.video_info.variants);
+            recordCandidate({
+              tweetId,
+              handle,
+              authorName,
+              fullText,
+              publishedAtMs,
+              durationMs,
+              streamUrl,
+              thumbnailUrl: m.media_url_https || ''
+            });
+            break;
+          }
+        }
+      }
+
+      for (const key of Object.keys(node)) {
+        if (key === 'quoted_status_result' || key === 'retweeted_status_result') continue;
+        walk(node[key]);
+      }
+    }
+
+    walk(rootNode);
+    return { bottomCursor, reachedEnd, oldestSeenMs };
+  }
+
+  function parseSsrHtmlVideos(htmlText, followedSet, collectedVideos, cutoffMs) {
+    let bottomCursor = null;
+    let reachedEnd = false;
+    let oldestSeenMs = Infinity;
+    let discoveredSearchQueryId = null;
+
+    if (!htmlText) return { bottomCursor, reachedEnd, oldestSeenMs, discoveredSearchQueryId };
+
+    // Auto-discover active 2026 x-web Search Relay queryId if present in SSR HTML
+    const qMatch = htmlText.match(/key:"([A-Za-z0-9_-]{18,30})\{[^"]*(?:rawQuery|query)\\?":/i);
+    if (qMatch) {
+      discoveredSearchQueryId = qMatch[1];
+      GM_setValue(STORAGE_KEYS.CACHED_SEARCH_QUERY_ID, discoveredSearchQueryId);
+    }
+
+    let searchIdx = 0;
+    const marker = 'value:"';
+    while (searchIdx < htmlText.length) {
+      const start = htmlText.indexOf(marker, searchIdx);
+      if (start < 0) break;
+      const literalStart = start + 6;
+      let i = literalStart + 1;
+      let escaped = false;
+      while (i < htmlText.length) {
+        const c = htmlText[i];
+        if (escaped) escaped = false;
+        else if (c === '\\') escaped = true;
+        else if (c === '"') break;
+        i++;
+      }
+      if (i >= htmlText.length) break;
+      const literal = htmlText.substring(literalStart, i + 1);
+      searchIdx = i + 1;
+      if (!literal.includes('video_info') && !literal.includes('duration_millis') && !literal.includes('cursor')) {
+        continue;
+      }
+      try {
+        const jsonStr = JSON.parse(literal);
+        const parsed = JSON.parse(jsonStr);
+        const res = extractLongFormVideosFromPayload(parsed, followedSet, collectedVideos, cutoffMs);
+        if (res.bottomCursor) bottomCursor = res.bottomCursor;
+        if (res.reachedEnd) reachedEnd = true;
+        if (res.oldestSeenMs < oldestSeenMs) oldestSeenMs = res.oldestSeenMs;
+      } catch (_) {}
+    }
+
+    return { bottomCursor, reachedEnd, oldestSeenMs, discoveredSearchQueryId };
+  }
+
+  async function harvestLongFormVideos(accounts) {
+    const ct0 = getCsrfToken();
+    const nowMs = Date.now();
+    const cutoffMs = nowMs - VIDEO_WINDOW_MS;
+    const sinceDate = new Date(cutoffMs).toISOString().slice(0, 10);
+    const followedSet = new Set(
+      (accounts || []).map((a) => String(a.handle || '').replace(/^@+/, '').toLowerCase()).filter(Boolean)
+    );
+    const collectedVideos = new Map();
+    const searchQuery = `filter:follows filter:native_video -filter:retweets since:${sinceDate}`;
+
+    // Strategy 1: Fetch authenticated Search SSR page + paginate via REST v2 adaptive search
+    try {
+      const ssrResp = await fetch(
+        `${location.origin}/search?q=${encodeURIComponent(searchQuery)}&src=typed_query&f=live`,
+        { credentials: 'include', headers: { accept: 'text/html' } }
+      );
+      if (ssrResp.ok) {
+        const html = await ssrResp.text();
+        parseSsrHtmlVideos(html, followedSet, collectedVideos, cutoffMs);
+      }
+    } catch (e) {
+      console.warn('[CTV X Sync] Search SSR video harvest error:', e);
+    }
+
+    // Strategy 2: Paginate authenticated REST v2 adaptive search (covers full 30-day window across all followed accounts)
+    if (ct0) {
+      let cursor = null;
+      for (let page = 0; page < 35; page++) {
+        try {
+          const params = new URLSearchParams({
+            include_profile_interstitial_type: '1',
+            include_blocking: '1',
+            include_blocked_by: '1',
+            include_followed_by: '1',
+            include_want_retweets: '0',
+            include_mute_edge: '1',
+            include_can_dm: '1',
+            include_can_media_tag: '1',
+            skip_status: '1',
+            cards_platform: 'Web-12',
+            include_cards: '1',
+            include_ext_alt_text: 'true',
+            include_quote_count: 'true',
+            include_reply_count: '1',
+            tweet_mode: 'extended',
+            include_entities: 'true',
+            include_user_entities: 'true',
+            include_ext_media_color: 'true',
+            include_ext_media_availability: 'true',
+            send_error_codes: 'true',
+            simple_quoted_tweet: 'true',
+            q: searchQuery,
+            tweet_search_mode: 'live',
+            count: '20',
+            query_source: 'typed_query',
+            pc: '1',
+            spelling_corrections: '1',
+            ext: 'mediaStats,highlightedLabel,voiceInfo,superFollowMetadata'
+          });
+          if (cursor) params.set('cursor', cursor);
+
+          const resp = await fetch(`${location.origin}/i/api/2/search/adaptive.json?${params.toString()}`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: buildXAuthHeaders(ct0)
+          });
+          if (!resp.ok) break;
+          const json = await resp.json();
+          const { bottomCursor, reachedEnd, oldestSeenMs } = extractLongFormVideosFromPayload(
+            json,
+            followedSet,
+            collectedVideos,
+            cutoffMs
+          );
+          if (reachedEnd || !bottomCursor || bottomCursor === cursor) break;
+          if (oldestSeenMs < cutoffMs) break;
+          cursor = bottomCursor;
+        } catch (e) {
+          console.warn('[CTV X Sync] Adaptive search pagination error:', e);
+          break;
+        }
+      }
+    }
+
+    // Strategy 3: Fallback profile SSR scan for top followed accounts if Search yielded nothing
+    if (collectedVideos.size === 0 && accounts && accounts.length > 0) {
+      const sampleAccounts = accounts.slice(0, 35);
+      for (const acc of sampleAccounts) {
+        if (!acc?.handle) continue;
+        try {
+          const resp = await fetch(`${location.origin}/${encodeURIComponent(acc.handle)}`, {
+            credentials: 'include',
+            headers: { accept: 'text/html' }
+          });
+          if (resp.status === 429) break;
+          if (!resp.ok) continue;
+          const html = await resp.text();
+          parseSsrHtmlVideos(html, followedSet, collectedVideos, cutoffMs);
+        } catch (_) {}
+      }
+    }
+
+    // Sort strictly reverse chronological (newest first)
+    return Array.from(collectedVideos.values()).sort((a, b) => {
+      if (b.published_at_ms !== a.published_at_ms) return b.published_at_ms - a.published_at_ms;
+      return b.tweet_id.localeCompare(a.tweet_id);
+    });
+  }
+
+  async function uploadVideosToGitHub(videos) {
+    const token = getGithubToken();
+    if (!token) throw new Error('Missing GitHub token');
+
+    const payload = {
+      version: 1,
+      source_account: TARGET_USERNAME,
+      updated_at: new Date().toISOString(),
+      min_duration_seconds: Math.floor(MIN_LONG_FORM_VIDEO_MS / 1000),
+      window_days: VIDEO_WINDOW_DAYS,
+      total_videos: videos.length,
+      videos
+    };
+
+    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_VIDEOS_FILE_PATH}`;
+    let existingSha = undefined;
+    try {
+      const existing = await githubRequest('GET', apiUrl, token);
+      existingSha = existing?.sha;
+    } catch (err) {
+      if (!String(err.message).includes('404')) throw err;
+    }
+
+    await githubRequest('PUT', apiUrl, token, {
+      message: `chore(sync): update @${TARGET_USERNAME} long-form X videos (${videos.length} videos)`,
+      content: utf8ToBase64(JSON.stringify(payload, null, 2) + '\n'),
+      ...(existingSha ? { sha: existingSha } : {})
+    });
+
+    return videos.length;
   }
 
   let syncInFlight = false;
 
-  async function runFollowingSync({ manual = false } = {}) {
+  async function runFollowingSync({ manual = false, videosOnly = false } = {}) {
     const token = getGithubToken();
     if (!token) {
       if (manual) openTokenModal();
@@ -702,7 +1083,12 @@
     syncInFlight = true;
     GM_setValue(STORAGE_KEYS.SYNC_LOCK_UNTIL, now + SYNC_LOCK_MS);
     if (manual) {
-      showBanner(`Scanning @${TARGET_USERNAME} following list...`, { durationMs: 0 });
+      showBanner(
+        videosOnly
+          ? `Scanning @${TARGET_USERNAME} followed accounts for 5m+ videos (last 30 days)...`
+          : `Scanning @${TARGET_USERNAME} following list & long-form videos...`,
+        { durationMs: 0 }
+      );
     }
 
     try {
@@ -743,10 +1129,39 @@
         return;
       }
 
-      const count = await uploadAccountsToGitHub(accounts);
-      showBanner(`Synced ${count} followed accounts to CTV News TV!`, {
-        durationMs: manual ? 8000 : 4500
-      });
+      let accountCount = accounts.length;
+      let sortedAccounts = accounts;
+      if (!videosOnly) {
+        const res = await uploadAccountsToGitHub(accounts);
+        accountCount = res.count;
+        sortedAccounts = res.accounts;
+      }
+
+      if (manual) {
+        showBanner(`Scanning ${accountCount} followed accounts for 5m+ videos (last 30 days)...`, { durationMs: 0 });
+      }
+
+      let videoCount = 0;
+      try {
+        const videos = await harvestLongFormVideos(sortedAccounts);
+        videoCount = await uploadVideosToGitHub(videos);
+      } catch (vidErr) {
+        console.warn('[CTV X Sync] Long-form video sync error:', vidErr);
+      }
+
+      const doneAt = Date.now();
+      GM_setValue(STORAGE_KEYS.LAST_SYNC_MS, doneAt);
+      GM_setValue(
+        STORAGE_KEYS.LAST_SYNC_STATUS,
+        `Synced ${accountCount} accounts & ${videoCount} long-form videos at ${new Date(doneAt).toLocaleString()}`
+      );
+
+      showBanner(
+        videosOnly
+          ? `Synced ${videoCount} long-form X videos (5m+, 30d) to CTV News TV!`
+          : `Synced ${accountCount} accounts & ${videoCount} long-form X videos to CTV News TV!`,
+        { durationMs: manual ? 8000 : 4500 }
+      );
     } catch (err) {
       console.error('[CTV X Sync] Sync error:', err);
       GM_setValue(
@@ -893,7 +1308,10 @@
   // Register Violentmonkey / Tampermonkey toolbar commands
   if (typeof GM_registerMenuCommand === 'function') {
     GM_registerMenuCommand('🔑 Set GitHub Token (ctv-x-feeds)', openTokenModal);
-    GM_registerMenuCommand(`🔄 Sync @${TARGET_USERNAME} Following Now`, () => runFollowingSync({ manual: true }));
+    GM_registerMenuCommand(`🔄 Sync @${TARGET_USERNAME} Following & Videos Now`, () => runFollowingSync({ manual: true }));
+    GM_registerMenuCommand('🎬 Sync X Long-Form Videos (5m+, 30d) Now', () =>
+      runFollowingSync({ manual: true, videosOnly: true })
+    );
     GM_registerMenuCommand('📊 View Last Sync Status', showLastSyncStatus);
     GM_registerMenuCommand('⚙️ Set Minimum Follower Filter', promptForMinFollowers);
   }
