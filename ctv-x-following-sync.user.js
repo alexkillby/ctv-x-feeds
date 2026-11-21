@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CTV News TV — Sync @alexkillby X Following List
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.2.2
+// @version      1.2.3
 // @description  Syncs @alexkillby's followed X accounts and long-form videos (5m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
 // @author       Alex Killby
 // @match        https://x.com/*
@@ -11,6 +11,7 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_registerMenuCommand
+// @grant        unsafeWindow
 // @connect      api.github.com
 // @downloadURL  https://github.com/alexkillby/ctv-x-feeds/raw/main/ctv-x-following-sync.user.js
 // @updateURL    https://github.com/alexkillby/ctv-x-feeds/raw/main/ctv-x-following-sync.user.js
@@ -285,6 +286,119 @@
       setTimeout(startIframeHarvest, 3000);
     } else {
       window.addEventListener('DOMContentLoaded', () => setTimeout(startIframeHarvest, 3000), { once: true });
+    }
+    return;
+  }
+
+  // ============================================================================
+  // VIDEO SEARCH IFRAME WORKER MODE (?ctv_video_sync=1)
+  // Intercepts X's own live 2026 Search GraphQL responses as the iframe scrolls
+  // ============================================================================
+  const isVideoSyncIframe = window.self !== window.top && location.search.includes('ctv_video_sync=1');
+  if (isVideoSyncIframe) {
+    const cutoffMs = Date.now() - VIDEO_WINDOW_MS;
+    const collectedVideos = new Map();
+    let apiResponsesSeen = 0;
+    let oldestSeenMs = Infinity;
+    let lastActivityTick = 0;
+
+    const handleApiJson = (json) => {
+      if (!json || typeof json !== 'object') return;
+      apiResponsesSeen++;
+      const res = extractLongFormVideosFromPayload(json, null, collectedVideos, cutoffMs);
+      if (res.oldestSeenMs < oldestSeenMs) {
+        oldestSeenMs = res.oldestSeenMs;
+      }
+    };
+
+    // Hook page-world fetch & XHR at document-start (CSP-safe via unsafeWindow)
+    const targetWin = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+    try {
+      const origFetch = targetWin.fetch;
+      if (typeof origFetch === 'function') {
+        targetWin.fetch = function (...args) {
+          const reqUrl = typeof args[0] === 'string' ? args[0] : args[0]?.url || '';
+          const p = origFetch.apply(this, args);
+          if (reqUrl.includes('/i/api/graphql/') || reqUrl.includes('/i/api/2/search/')) {
+            p.then((resp) => {
+              if (resp && resp.ok) {
+                resp
+                  .clone()
+                  .json()
+                  .then(handleApiJson)
+                  .catch(() => {});
+              }
+            }).catch(() => {});
+          }
+          return p;
+        };
+      }
+    } catch (_) {}
+
+    try {
+      const OrigXHR = targetWin.XMLHttpRequest;
+      if (OrigXHR && OrigXHR.prototype) {
+        const origOpen = OrigXHR.prototype.open;
+        const origSend = OrigXHR.prototype.send;
+        OrigXHR.prototype.open = function (method, url, ...rest) {
+          this.__ctvUrl = String(url || '');
+          return origOpen.call(this, method, url, ...rest);
+        };
+        OrigXHR.prototype.send = function (...args) {
+          if (this.__ctvUrl && (this.__ctvUrl.includes('/i/api/graphql/') || this.__ctvUrl.includes('/i/api/2/search/'))) {
+            this.addEventListener('load', () => {
+              try {
+                if (this.status >= 200 && this.status < 300 && this.responseText) {
+                  handleApiJson(JSON.parse(this.responseText));
+                }
+              } catch (_) {}
+            });
+          }
+          return origSend.apply(this, args);
+        };
+      }
+    } catch (_) {}
+
+    const startVideoScroll = () => {
+      parseSsrHtmlVideos(document.documentElement?.innerHTML || '', null, collectedVideos, cutoffMs);
+      let ticks = 0;
+      let lastResponseCount = apiResponsesSeen;
+      let lastVideoCount = collectedVideos.size;
+      const MAX_TICKS = 35;
+
+      const timer = setInterval(() => {
+        ticks++;
+        window.scrollBy(0, 1800);
+        if (document.scrollingElement) {
+          document.scrollingElement.scrollTop += 1800;
+        }
+
+        if (apiResponsesSeen !== lastResponseCount || collectedVideos.size !== lastVideoCount) {
+          lastResponseCount = apiResponsesSeen;
+          lastVideoCount = collectedVideos.size;
+          lastActivityTick = ticks;
+        }
+
+        const idleTicks = ticks - lastActivityTick;
+        const reachedCutoff = oldestSeenMs < cutoffMs && ticks >= 4;
+        if (reachedCutoff || (apiResponsesSeen > 0 && idleTicks >= 6) || idleTicks >= 10 || ticks >= MAX_TICKS) {
+          clearInterval(timer);
+          window.parent.postMessage(
+            {
+              source: MSG_SOURCE,
+              type: 'VIDEO_HARVEST_COMPLETE',
+              videos: Array.from(collectedVideos.values())
+            },
+            location.origin
+          );
+        }
+      }, 1200);
+    };
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(startVideoScroll, 3000);
+    } else {
+      window.addEventListener('DOMContentLoaded', () => setTimeout(startVideoScroll, 3000), { once: true });
     }
     return;
   }
@@ -955,88 +1069,65 @@
     const collectedVideos = new Map();
     const searchQuery = `filter:follows filter:native_video -filter:retweets since:${sinceDate}`;
 
-    // Strategy 1: Fetch authenticated Search SSR page + paginate via REST v2 adaptive search
-    try {
-      const ssrResp = await fetch(
-        `${location.origin}/search?q=${encodeURIComponent(searchQuery)}&src=typed_query&f=live`,
-        { credentials: 'include', headers: { accept: 'text/html' } }
-      );
-      if (ssrResp.ok) {
-        const html = await ssrResp.text();
-        parseSsrHtmlVideos(html, followedSet, collectedVideos, cutoffMs);
-      }
-    } catch (e) {
-      console.warn('[CTV X Sync] Search SSR video harvest error:', e);
-    }
+    // Strategy 1: Live 2026 x-web Search iframe (intercepts X's own authenticated Search GraphQL responses)
+    await new Promise((resolve) => {
+      const attach = () => {
+        const iframe = document.createElement('iframe');
+        iframe.src = `${location.origin}/search?q=${encodeURIComponent(searchQuery)}&src=typed_query&f=live&ctv_video_sync=1`;
+        Object.assign(iframe.style, {
+          position: 'fixed',
+          width: '420px',
+          height: '620px',
+          right: '0px',
+          bottom: '0px',
+          opacity: '0.01',
+          pointerEvents: 'none',
+          zIndex: '-1',
+          border: 'none'
+        });
 
-    // Strategy 2: Paginate authenticated REST v2 adaptive search (covers full 30-day window across all followed accounts)
-    if (ct0) {
-      let cursor = null;
-      for (let page = 0; page < 35; page++) {
-        try {
-          const params = new URLSearchParams({
-            include_profile_interstitial_type: '1',
-            include_blocking: '1',
-            include_blocked_by: '1',
-            include_followed_by: '1',
-            include_want_retweets: '0',
-            include_mute_edge: '1',
-            include_can_dm: '1',
-            include_can_media_tag: '1',
-            skip_status: '1',
-            cards_platform: 'Web-12',
-            include_cards: '1',
-            include_ext_alt_text: 'true',
-            include_quote_count: 'true',
-            include_reply_count: '1',
-            tweet_mode: 'extended',
-            include_entities: 'true',
-            include_user_entities: 'true',
-            include_ext_media_color: 'true',
-            include_ext_media_availability: 'true',
-            send_error_codes: 'true',
-            simple_quoted_tweet: 'true',
-            q: searchQuery,
-            tweet_search_mode: 'live',
-            count: '20',
-            query_source: 'typed_query',
-            pc: '1',
-            spelling_corrections: '1',
-            ext: 'mediaStats,highlightedLabel,voiceInfo,superFollowMetadata'
-          });
-          if (cursor) params.set('cursor', cursor);
+        const cleanup = () => {
+          window.removeEventListener('message', onMsg);
+          clearTimeout(safetyTimer);
+          iframe.remove();
+          resolve();
+        };
 
-          const resp = await fetch(`${location.origin}/i/api/2/search/adaptive.json?${params.toString()}`, {
-            method: 'GET',
-            credentials: 'include',
-            headers: buildXAuthHeaders(ct0)
-          });
-          if (!resp.ok) break;
-          const json = await resp.json();
-          const { bottomCursor, reachedEnd, oldestSeenMs } = extractLongFormVideosFromPayload(
-            json,
-            followedSet,
-            collectedVideos,
-            cutoffMs
-          );
-          if (reachedEnd || !bottomCursor || bottomCursor === cursor) break;
-          if (oldestSeenMs < cutoffMs) break;
-          cursor = bottomCursor;
-        } catch (e) {
-          console.warn('[CTV X Sync] Adaptive search pagination error:', e);
-          break;
-        }
-      }
-    }
+        const onMsg = (event) => {
+          if (event.origin !== location.origin) return;
+          const data = event.data;
+          if (!data || data.source !== MSG_SOURCE || data.type !== 'VIDEO_HARVEST_COMPLETE') return;
+          if (Array.isArray(data.videos)) {
+            for (const v of data.videos) {
+              if (!v || !v.tweet_id || !v.handle || !v.stream_url) continue;
+              if (followedSet.size > 0 && !followedSet.has(String(v.handle).toLowerCase())) continue;
+              if ((v.duration_seconds || 0) * 1000 < MIN_LONG_FORM_VIDEO_MS) continue;
+              if ((v.published_at_ms || 0) < cutoffMs) continue;
+              if (!collectedVideos.has(v.tweet_id)) {
+                collectedVideos.set(v.tweet_id, v);
+              }
+            }
+          }
+          cleanup();
+        };
 
-    // Strategy 3: Fallback profile SSR scan for top followed accounts if Search yielded nothing
+        const safetyTimer = setTimeout(cleanup, 55000);
+        window.addEventListener('message', onMsg);
+        document.body.appendChild(iframe);
+      };
+
+      if (document.body) attach();
+      else document.addEventListener('DOMContentLoaded', attach, { once: true });
+    });
+
+    // Strategy 2: Logged-out SSR profile scan fallback if live Search iframe yielded nothing
     if (collectedVideos.size === 0 && accounts && accounts.length > 0) {
       const sampleAccounts = accounts.slice(0, 35);
       for (const acc of sampleAccounts) {
         if (!acc?.handle) continue;
         try {
           const resp = await fetch(`${location.origin}/${encodeURIComponent(acc.handle)}`, {
-            credentials: 'include',
+            credentials: 'omit',
             headers: { accept: 'text/html' }
           });
           if (resp.status === 429) break;
