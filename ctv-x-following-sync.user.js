@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         CTV News TV — Sync @alexkillby X Following & On-Demand Videos
+// @name         CTV News TV — Sync @alexkillby X Following List
 // @namespace    https://github.com/alexkillby/ctv-x-feeds
-// @version      1.2.1
+// @version      1.2.2
 // @description  Syncs @alexkillby's followed X accounts and long-form videos (5m+, last 30 days) automatically once per day to GitHub for CTV News Android TV.
 // @author       Alex Killby
 // @match        https://x.com/*
