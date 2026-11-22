@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-21T20:01:22.890Z",
-  "total_following_scanned": 1807,
+  "updated_at": "2026-11-22T16:14:52.094Z",
+  "total_following_scanned": 1808,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "WanderingVan6",
+      "name": "The Wanderer_浪人",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@WanderingVan6)"
     },
     {
       "handle": "rezoundous",
