@@ -1,21 +1,21 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-21T22:05:14.721Z",
+  "updated_at": "2026-11-24T02:08:52.010Z",
   "min_duration_seconds": 900,
   "window_days": 30,
   "total_videos": 1,
   "videos": [
     {
-      "tweet_id": "2123008236110614643",
+      "tweet_id": "2124892673056366948",
       "handle": "teddywang86",
       "author_name": "teddywang86",
-      "title": "I Tried 1 New AI Tool Every Day for 365 Days. Day 3 Part 2 - I Showed an AI Her Own Face",
-      "published_at_ms": 1794999581000,
-      "published_at": "2026-11-18T10:59:41.000Z",
-      "duration_seconds": 1197,
-      "stream_url": "https://video.twimg.com/amplify_video/2123007870048653312/pl/ptomQn4Jmt91T64z.m3u8?tag=29&v=b49",
-      "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2123007870048653312/img/PDffJJ5B__pZ89B2.jpg"
+      "title": "I Tried 1 New AI Tool Every Day for 365 Days.",
+      "published_at_ms": 1795448866000,
+      "published_at": "2026-11-23T15:47:46.000Z",
+      "duration_seconds": 1067,
+      "stream_url": "https://video.twimg.com/amplify_video/2124892128090443776/pl/ECOjANnnMN6D-vQB.m3u8?tag=29",
+      "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2124892128090443776/img/4uwMfqb6md1Cf5gv.jpg"
     }
   ]
 }
