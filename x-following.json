@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-22T16:14:52.094Z",
+  "updated_at": "2026-11-24T02:07:36.875Z",
   "total_following_scanned": 1808,
   "accounts": [
     {
@@ -614,13 +614,6 @@
       "subtitle": "Live Broadcast • X (@CrimewatchTO)"
     },
     {
-      "handle": "haganknowsbest",
-      "name": "hagan",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@haganknowsbest)"
-    },
-    {
       "handle": "catsareblessing",
       "name": "We don't deserve cats 😺",
       "followers_count": 0,
@@ -1102,13 +1095,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@theneonrequiem)"
-    },
-    {
-      "handle": "Navythunder808",
-      "name": "Paul",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@Navythunder808)"
     },
     {
       "handle": "spqr_sulla",
@@ -2530,6 +2516,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@yimingdothan)"
+    },
+    {
+      "handle": "cbcwatcher",
+      "name": "_cbcwatcher_",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@cbcwatcher)"
     },
     {
       "handle": "sscjusa",
@@ -4252,13 +4245,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@jonkay)"
-    },
-    {
-      "handle": "Daniel_in_HD",
-      "name": "Daniel Desjarlais",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@Daniel_in_HD)"
     },
     {
       "handle": "JBradleyAB",
@@ -6760,6 +6746,13 @@
       "subtitle": "Live Broadcast • X (@porterairlines)"
     },
     {
+      "handle": "haganknowsbest",
+      "name": "hagan",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@haganknowsbest)"
+    },
+    {
       "handle": "The_RPSL",
       "name": "The Royal Philatelic Society London",
       "followers_count": 0,
@@ -6989,6 +6982,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@cheetoandblaze)"
+    },
+    {
+      "handle": "Navythunder808",
+      "name": "Paul",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@Navythunder808)"
     },
     {
       "handle": "andyyen",
@@ -7619,13 +7619,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@traviskann)"
-    },
-    {
-      "handle": "cbcwatcher",
-      "name": "_cbcwatcher_",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@cbcwatcher)"
     },
     {
       "handle": "ianhanomansing",
@@ -8651,7 +8644,7 @@
     },
     {
       "handle": "AnnLesbyPhD",
-      "name": "Dr. Ann Lesby ✝️🏳️‍🌈♐️",
+      "name": "Ann Lesby, PhD 🏳️‍🌈",
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@AnnLesbyPhD)"
@@ -8746,6 +8739,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@Vishhhhh___)"
+    },
+    {
+      "handle": "Daniel_in_HD",
+      "name": "Daniel Desjarlais",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@Daniel_in_HD)"
     },
     {
       "handle": "chefanahirata",
