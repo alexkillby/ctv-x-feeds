@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-24T02:07:36.875Z",
-  "total_following_scanned": 1808,
+  "updated_at": "2026-11-25T20:33:25.960Z",
+  "total_following_scanned": 1807,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -1020,13 +1020,6 @@
       "subtitle": "Live Broadcast • X (@wyntonmarsalis)"
     },
     {
-      "handle": "agedchenpi",
-      "name": "chenpi",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@agedchenpi)"
-    },
-    {
       "handle": "XNews",
       "name": "News",
       "followers_count": 0,
@@ -1382,13 +1375,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@ScientistIzaak)"
-    },
-    {
-      "handle": "purrlitics",
-      "name": "Purrlitics 🇨🇦",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@purrlitics)"
     },
     {
       "handle": "G_kung",
@@ -6690,11 +6676,11 @@
       "subtitle": "Live Broadcast • X (@mjyellowrose)"
     },
     {
-      "handle": "AbedaniaJerico",
+      "handle": "tbilisi_Weed_",
       "name": "Jerico Abedania",
       "followers_count": 0,
       "verified": false,
-      "subtitle": "Live Broadcast • X (@AbedaniaJerico)"
+      "subtitle": "Live Broadcast • X (@tbilisi_Weed_)"
     },
     {
       "handle": "Steve_Pellerin1",
@@ -7101,6 +7087,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@ConsumerSOS)"
+    },
+    {
+      "handle": "purrlitics",
+      "name": "Purrlitics 🇨🇦",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@purrlitics)"
     },
     {
       "handle": "davidjn_",
