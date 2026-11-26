@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-25T20:33:25.960Z",
-  "total_following_scanned": 1807,
+  "updated_at": "2026-11-26T22:43:11.978Z",
+  "total_following_scanned": 1822,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,111 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "_matthewli",
+      "name": "Matthew Li",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@_matthewli)"
+    },
+    {
+      "handle": "eliza_huang",
+      "name": "Eliza Huang",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@eliza_huang)"
+    },
+    {
+      "handle": "ntaylormullen",
+      "name": "N. Taylor Mullen",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@ntaylormullen)"
+    },
+    {
+      "handle": "ishaandey_",
+      "name": "ishaan dey",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@ishaandey_)"
+    },
+    {
+      "handle": "adhidesign",
+      "name": "Adhithya Ramakumar",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@adhidesign)"
+    },
+    {
+      "handle": "RohanPhadte",
+      "name": "Rohan Phadte",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@RohanPhadte)"
+    },
+    {
+      "handle": "SmithaKolan",
+      "name": "Smitha Kolan",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@SmithaKolan)"
+    },
+    {
+      "handle": "geekyouup",
+      "name": "Rich Hyndman",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@geekyouup)"
+    },
+    {
+      "handle": "NoheDev",
+      "name": "Nohe",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@NoheDev)"
+    },
+    {
+      "handle": "erintwalsh_",
+      "name": "Erin Walsh",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@erintwalsh_)"
+    },
+    {
+      "handle": "ckbrox13",
+      "name": "Chris Brox",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@ckbrox13)"
+    },
+    {
+      "handle": "_anshulr",
+      "name": "Anshul Ramachandran",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@_anshulr)"
+    },
+    {
+      "handle": "garymlin",
+      "name": "Gary Lin",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@garymlin)"
+    },
+    {
+      "handle": "richiewxyz",
+      "name": "richie",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@richiewxyz)"
+    },
+    {
+      "handle": "CapitalOne",
+      "name": "Capital One",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@CapitalOne)"
     },
     {
       "handle": "WanderingVan6",
@@ -73,13 +178,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@wzhang)"
-    },
-    {
-      "handle": "vizhang",
-      "name": "Vic",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@vizhang)"
     },
     {
       "handle": "vercel",
@@ -2708,7 +2806,7 @@
     },
     {
       "handle": "oldbooksguy",
-      "name": "Creativity with Jash",
+      "name": "Jash Dholani",
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@oldbooksguy)"
@@ -5367,20 +5465,6 @@
       "subtitle": "Live Broadcast • X (@voicesofyouth)"
     },
     {
-      "handle": "bretthuneycutt",
-      "name": "Brett Huneycutt",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@bretthuneycutt)"
-    },
-    {
-      "handle": "mkatchen",
-      "name": "Michael Katchen",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@mkatchen)"
-    },
-    {
       "handle": "SinghLions",
       "name": "Harjinder Singh Kukreja",
       "followers_count": 0,
@@ -6627,6 +6711,13 @@
       "subtitle": "Live Broadcast • X (@gregjames)"
     },
     {
+      "handle": "lejeunesimon",
+      "name": "Simon Lejeune",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@lejeunesimon)"
+    },
+    {
       "handle": "scotthoho",
       "name": "Scott Ho",
       "followers_count": 0,
@@ -6639,6 +6730,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@kazuto_aby)"
+    },
+    {
+      "handle": "vizhang",
+      "name": "Vic",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@vizhang)"
     },
     {
       "handle": "ZvxyWu",
@@ -7696,13 +7794,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@thurrott)"
-    },
-    {
-      "handle": "bfour_88",
-      "name": "Bari B. 🇨🇦",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@bfour_88)"
     },
     {
       "handle": "skatingpj",
@@ -10055,6 +10146,20 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GlebeCA)"
+    },
+    {
+      "handle": "bretthuneycutt",
+      "name": "Brett Huneycutt",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@bretthuneycutt)"
+    },
+    {
+      "handle": "mkatchen",
+      "name": "Michael Katchen",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@mkatchen)"
     },
     {
       "handle": "p_g",
