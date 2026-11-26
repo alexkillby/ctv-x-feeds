@@ -1,11 +1,22 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-24T02:08:52.010Z",
+  "updated_at": "2026-11-26T22:44:29.596Z",
   "min_duration_seconds": 900,
   "window_days": 30,
-  "total_videos": 1,
+  "total_videos": 2,
   "videos": [
+    {
+      "tweet_id": "2124994713313018092",
+      "handle": "SmithaKolan",
+      "author_name": "Smitha Kolan",
+      "title": "Google just dropped an entire roadmap to learn production-grade AI agent engineering that's only 27 minutes…",
+      "published_at_ms": 1795473194000,
+      "published_at": "2026-11-23T22:33:14.000Z",
+      "duration_seconds": 1650,
+      "stream_url": "https://video.twimg.com/amplify_video/2124990583206817792/pl/Gmr4MxFtTiYuj73X.m3u8?tag=29&v=c2a",
+      "thumbnail_url": "https://pbs.twimg.com/amplify_video_thumb/2124990583206817792/img/WkZWaz3CpEsvxFKL.jpg"
+    },
     {
       "tweet_id": "2124892673056366948",
       "handle": "teddywang86",
