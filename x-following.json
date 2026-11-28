@@ -1,8 +1,8 @@
 {
   "version": 1,
   "source_account": "alexkillby",
-  "updated_at": "2026-11-26T22:43:11.978Z",
-  "total_following_scanned": 1822,
+  "updated_at": "2026-11-28T00:47:31.702Z",
+  "total_following_scanned": 1826,
   "accounts": [
     {
       "handle": "SpaceX",
@@ -17,6 +17,27 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@TWiT)"
+    },
+    {
+      "handle": "arvinfarsyad",
+      "name": "arvin/vinny",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@arvinfarsyad)"
+    },
+    {
+      "handle": "ansonlin",
+      "name": "Anson Lin",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@ansonlin)"
+    },
+    {
+      "handle": "yo_puaaa",
+      "name": "matt 👋",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@yo_puaaa)"
     },
     {
       "handle": "_matthewli",
@@ -124,6 +145,13 @@
       "subtitle": "Live Broadcast • X (@CapitalOne)"
     },
     {
+      "handle": "lejeunesimon",
+      "name": "Simon Lejeune",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@lejeunesimon)"
+    },
+    {
       "handle": "WanderingVan6",
       "name": "The Wanderer_浪人",
       "followers_count": 0,
@@ -178,6 +206,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@wzhang)"
+    },
+    {
+      "handle": "vizhang",
+      "name": "Vic",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@vizhang)"
     },
     {
       "handle": "vercel",
@@ -696,6 +731,13 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@davidgpeterson)"
+    },
+    {
+      "handle": "DanielGrahammm",
+      "name": "Daniel Graham",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@DanielGrahammm)"
     },
     {
       "handle": "shiri_shh",
@@ -1662,13 +1704,6 @@
       "followers_count": 0,
       "verified": true,
       "subtitle": "Live Broadcast • X (@jinhan8)"
-    },
-    {
-      "handle": "goddek",
-      "name": "Dr. Simon",
-      "followers_count": 0,
-      "verified": true,
-      "subtitle": "Live Broadcast • X (@goddek)"
     },
     {
       "handle": "Gemini_Notebook",
@@ -5465,6 +5500,20 @@
       "subtitle": "Live Broadcast • X (@voicesofyouth)"
     },
     {
+      "handle": "bretthuneycutt",
+      "name": "Brett Huneycutt",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@bretthuneycutt)"
+    },
+    {
+      "handle": "mkatchen",
+      "name": "Michael Katchen",
+      "followers_count": 0,
+      "verified": true,
+      "subtitle": "Live Broadcast • X (@mkatchen)"
+    },
+    {
       "handle": "SinghLions",
       "name": "Harjinder Singh Kukreja",
       "followers_count": 0,
@@ -6711,13 +6760,6 @@
       "subtitle": "Live Broadcast • X (@gregjames)"
     },
     {
-      "handle": "lejeunesimon",
-      "name": "Simon Lejeune",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@lejeunesimon)"
-    },
-    {
       "handle": "scotthoho",
       "name": "Scott Ho",
       "followers_count": 0,
@@ -6730,13 +6772,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@kazuto_aby)"
-    },
-    {
-      "handle": "vizhang",
-      "name": "Vic",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@vizhang)"
     },
     {
       "handle": "ZvxyWu",
@@ -6807,13 +6842,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@KingsTrustCA)"
-    },
-    {
-      "handle": "DanielGrahammm",
-      "name": "Daniel Graham",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@DanielGrahammm)"
     },
     {
       "handle": "onbeeper",
@@ -7145,6 +7173,13 @@
       "subtitle": "Live Broadcast • X (@exploreralbert)"
     },
     {
+      "handle": "brad_vermurlen",
+      "name": "Brad Vermurlen",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@brad_vermurlen)"
+    },
+    {
       "handle": "AnglicanBible",
       "name": "Anglican Bible Readings",
       "followers_count": 0,
@@ -7248,6 +7283,13 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@essay_app)"
+    },
+    {
+      "handle": "goddek",
+      "name": "Dr. Simon",
+      "followers_count": 0,
+      "verified": false,
+      "subtitle": "Live Broadcast • X (@goddek)"
     },
     {
       "handle": "SteveWiesbaden",
@@ -10146,20 +10188,6 @@
       "followers_count": 0,
       "verified": false,
       "subtitle": "Live Broadcast • X (@GlebeCA)"
-    },
-    {
-      "handle": "bretthuneycutt",
-      "name": "Brett Huneycutt",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@bretthuneycutt)"
-    },
-    {
-      "handle": "mkatchen",
-      "name": "Michael Katchen",
-      "followers_count": 0,
-      "verified": false,
-      "subtitle": "Live Broadcast • X (@mkatchen)"
     },
     {
       "handle": "p_g",
